@@ -1,0 +1,32 @@
+{
+  "name": "Trident",
+  "version": "0.0.0",
+  "description": "Combining the joys of SickBeard, CouchPotato, and Headphones into one happy, seamless interface",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/connorbillen/Trident.git"
+  },
+  "keywords": [
+    "CouchPotato",
+    "SickBeard",
+    "Headphones",
+    "Plex",
+    "tracker",
+    "private",
+    "torrent"
+  ],
+  "author": "Connor Billen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/connorbillen/Trident/issues"
+  },
+  "dependencies": {
+    "deferred": "^0.7.4",
+    "express": "^4.13.3",
+    "socket.io": "^1.4.4"
+  }
+}
