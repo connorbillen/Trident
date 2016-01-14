@@ -1,10 +1,83 @@
 body {
+    background-color: #39627F;
     font-family: 'Roboto', sans-serif;
     font-size: 1.5em;
+}
+
+div#container {
+    text-align: center;
 }
 
 span#header {
     color: #aaaaaa;
     font-weight: 600;
     font-size: 4rem;
+}
+
+div.movie {
+    background-color: #E9F6FF;
+    border-radius: 15px;
+    width: 750px;
+    height: 250px;
+    padding: 10px;
+    margin: 10px auto 10px auto;
+}
+
+div.information-header {
+    line-height: 3rem;
+}
+
+img.poster {
+    width: auto;
+    height: 250px;
+}
+
+span.title {
+    float: left;
+}
+
+span.rating {
+    margin-right: 20px;
+    float: right;
+}
+
+div.information-body {
+    font-size: 1rem;
+    clear: both;
+}
+
+span.description {
+    margin: 10px 0px 10px 0px;
+    display: block;
+    text-align: left;
+    height: 100px;
+    overflow: auto;
+}
+
+span.date {
+    float: left;
+    text-align: left;
+}
+
+span.actors {
+    float: right;
+    display: block;
+    text-align: left;
+    margin-right: 35px;
+}
+span.actors ul {
+    margin-top: -0.1rem;
+}
+
+div.poster-container {
+    width: 250px;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+
+div.information-container {
+    width: 500px;
+    height: 100%;
+    float: right;
 }
