@@ -14,6 +14,19 @@ span#header {
     font-size: 4rem;
 }
 
+input.search {
+    font-size: 1.3rem;
+    border: none;
+    margin: 5px;
+    width: 400px;
+    text-align: right;
+}
+
+select.dropdown {
+    font-size: 1.3rem;
+    border: none;
+}
+
 div.movie {
     background-color: #E9F6FF;
     border-radius: 15px;
@@ -21,6 +34,7 @@ div.movie {
     height: 250px;
     padding: 10px;
     margin: 10px auto 10px auto;
+    position: relative;
 }
 
 div.information-header {
@@ -33,10 +47,14 @@ img.poster {
 }
 
 span.title {
+    max-width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
     float: left;
 }
 
 span.rating {
+    font-size: 0.9rem;
     margin-right: 20px;
     float: right;
 }
@@ -57,16 +75,23 @@ span.description {
 span.date {
     float: left;
     text-align: left;
+    display: inline-block;
 }
 
 span.actors {
-    float: right;
-    display: block;
+    width: auto;
+    display: inline-block;
     text-align: left;
-    margin-right: 35px;
 }
+
 span.actors ul {
     margin-top: -0.1rem;
+}
+
+span.download {
+    position: absolute;
+    bottom: 17px;
+    right: 17px;
 }
 
 div.poster-container {

@@ -40,4 +40,31 @@ function searchForMovie(title) {
 
     return response.promise;
 }
-exports.searchForMovie = searchForMovie;
+
+function addMovie(title, identifier) {
+    var response = deferred();
+
+    http.request({ 'host': host, 'port': cpPort, 'path': cpPath + 'movie.add/?identifier=' + identifier + '&title=' + encodeURI(title) },
+            function processMovieAdd(data) {
+                var json = '';
+
+                data.on('data', function(chunk) {
+                    json += chunk;
+                });
+
+                data.on('end', function () {
+                    response.resolve(json);
+                });
+
+                data.on('error', function (error) {
+                    console.log(error);
+                });
+            }).on('error', function (error) {
+                console.log(error);
+            }).end();
+
+    return response.promise;
+}
+
+exports.searchForMovie  = searchForMovie;
+exports.addMovie        = addMovie;

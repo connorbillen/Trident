@@ -19,6 +19,12 @@ io.on('connection', function(socket) {
                 socket.emit('searchForMovie', data); 
             });
         });
+        
+        socket.on('addMovie', function(info) {
+            api.addMovie(info.title, info.identifier)(function (data) {
+                socket.emit('addMovie', data);
+            });
+        });
 
         socket.on('disconnect', function () {
             console.log('A frontend client disconnected...');
