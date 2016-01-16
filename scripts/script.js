@@ -5,7 +5,15 @@ var socket = io();
 var contentArea     = document.getElementById('content');
 var search          = document.getElementById('search');
 // various HMTL DOM element actions
-search.onkeypress = function searchOnEnter(event) { if (event.keyCode == 13) socket.emit('searchForMovie', encodeURI(search.value)); } 
+search.onkeypress = function searchOnEnter(event) { 
+    if (event.keyCode != 13)
+        return;
+    
+    var dropdown    = document.getElementById("search-type");
+    var type        = dropdown.options[dropdown.selectedIndex].value;
+
+    socket.emit('searchFor' + type, encodeURI(search.value)); 
+}
 
 function addMovie(title, imdb) {
     socket.emit('addMovie', { 'title': title, 'identifier': imdb });
@@ -15,14 +23,25 @@ socket.on('addMovie', function(data) {
     console.log(data);
 });
 
+socket.on('searchForMusic', function (data) {
+    var html = '';
+        data = JSON.parse(data);
+
+    for (var artist in data) {
+        html += '<div class="artist">';
+        html += '<span class="artist-name">' + data[artist].uniquename + '</span>';
+        html += '</div>';
+    }
+
+    contentArea.innerHTML = html;
+});
+
 //function called when a searchForMovie update is received -- render the results
 socket.on('searchForMovie', function (data) {
     var html = '';
         data = JSON.parse(data);
 
-    console.log(data);
-
-    data.movies.forEach(function procesMovies(movie) {
+    data.movies.forEach(function processMovies(movie) {
         var poster = movie.images.poster[movie.images.poster.length - 1];
         
         html += '<div class="movie">';

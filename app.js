@@ -13,7 +13,13 @@ app.get('/', function (req, res) {
 
 io.on('connection', function(socket) {
         console.log('A frontend client connected...');
-        
+
+        socket.on('searchForMusic', function(artist) {
+            api.searchForMusic(artist)(function (data) {
+                socket.emit('searchForMusic', data);
+            });
+        });
+
         socket.on('searchForMovie', function(title) {
             api.searchForMovie(title)(function (data) { 
                 socket.emit('searchForMovie', data); 
