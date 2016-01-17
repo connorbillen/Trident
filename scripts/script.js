@@ -44,12 +44,10 @@ socket.on('addArtist', function(artist) {
         artist  = JSON.parse(artist);    
 
     html += '<div id="artist-info">';
-    html += '<span class="artist-name">' + artist.artist.ArtistName  + '</span>';
     artist.albums.forEach(function renderAlbums(album) { 
         console.log(album);
-        html += '<div class="album">';
-        html += '<span class="album-name">' + album.AlbumTitle  + '</span>';
-        html += '<span class="album-art-container"><img class="album-art" alt="Album Art" src="' + album.ArtworkURL  + '"></span>';
+        html += '<div class="music">';
+        html += '<span class="album-name">' + album.AlbumTitle + '</span>';
         html += '<div class="add-album" onclick="addAlbum(\'' + album.AlbumID  + '\'); ">Download Album</div>';
         html += '</div>';
     });
@@ -65,8 +63,8 @@ socket.on('searchForMusic', function (data) {
         data = JSON.parse(data);
 
     for (var artist in data) {
-        html += '<div class="artist">';
-        html += '<div onclick="addArtist(\'' + data[artist].id + '\'); " class="artist-name">' + data[artist].uniquename + '</span>';
+        html += '<div class="music">';
+        html += '<div onclick="addArtist(\'' + data[artist].id + '\'); " class="artist-name">' + data[artist].uniquename + '</div>';
         html += '</div>';
     }
 

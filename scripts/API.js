@@ -80,14 +80,7 @@ function getArtist(guid) {
             });
 
             data.on('end', function() {
-                json = JSON.parse(json);
-                var promises = [];
-
-                json.albums.forEach(function getAlbums(album) {
-                    promises.push(getAlbumArt(album.AlbumID).then(function (response) { console.log(response); }));
-                });
-            
-                deferred.apply(null, promises).then(function () { response.resolve(JSON.stringify(json)); });
+                response.resolve(json);
             }); 
 
             data.on('error', function (error) {

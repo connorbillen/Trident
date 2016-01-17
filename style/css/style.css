@@ -95,11 +95,12 @@ span.download {
 }
 
 /* Styling for Artist Search  */
-div.artist-name {
+div.music {
     background-color: #e9f6ff;
     margin: 20px auto 20px auto;
-    width: 400px;
+    width: 700px;
     cursor: default;
+    overflow: auto;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -108,8 +109,21 @@ div.artist-name {
     user-select: none;
 }
 
-div.artist-name:hover {
+div.music:hover {
     background-color: #999999;
+}
+
+div.add-album {
+    float: right; 
+    margin-right: 50px;
+}
+
+span.album-name {
+    max-width: 400px;
+    white-space: nowrap;
+    float: left;
+    overflow: hidden;
+    margin-left: 50px;
 }
 
 /* Styling for generic information containers */
