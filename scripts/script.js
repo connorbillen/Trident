@@ -15,6 +15,9 @@ search.onkeypress = function searchOnEnter(event) {
     socket.emit('searchFor' + type, encodeURI(search.value)); 
 }
 
+
+// Utility socket emitters and sensors
+// Movie functions
 function addMovie(title, imdb) {
     socket.emit('addMovie', { 'title': title, 'identifier': imdb });
 }
@@ -23,13 +26,47 @@ socket.on('addMovie', function(data) {
     console.log(data);
 });
 
+// Music functions
+function addAlbum(guid) {
+    socket.emit('addAlbum', guid);
+}
+
+socket.on('addAlbum', function(album) {
+    console.log(album);
+});
+
+function addArtist(guid) {
+    socket.emit('addArtist', guid);
+}
+
+socket.on('addArtist', function(artist) {
+    var html    = '';
+        artist  = JSON.parse(artist);    
+
+    html += '<div id="artist-info">';
+    html += '<span class="artist-name">' + artist.artist.ArtistName  + '</span>';
+    artist.albums.forEach(function renderAlbums(album) { 
+        console.log(album);
+        html += '<div class="album">';
+        html += '<span class="album-name">' + album.AlbumTitle  + '</span>';
+        html += '<span class="album-art-container"><img class="album-art" alt="Album Art" src="' + album.ArtworkURL  + '"></span>';
+        html += '<div class="add-album" onclick="addAlbum(\'' + album.AlbumID  + '\'); ">Download Album</div>';
+        html += '</div>';
+    });
+    
+    html += '</div>';
+
+    contentArea.innerHTML = html;
+});
+
+// Socket emitters and sensors for search functions
 socket.on('searchForMusic', function (data) {
     var html = '';
         data = JSON.parse(data);
 
     for (var artist in data) {
         html += '<div class="artist">';
-        html += '<span class="artist-name">' + data[artist].uniquename + '</span>';
+        html += '<div onclick="addArtist(\'' + data[artist].id + '\'); " class="artist-name">' + data[artist].uniquename + '</span>';
         html += '</div>';
     }
 

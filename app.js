@@ -31,6 +31,18 @@ io.on('connection', function(socket) {
                 socket.emit('addMovie', data);
             });
         });
+        
+        socket.on('addArtist', function(guid) {
+            api.addArtist(guid)(function (data) {
+                socket.emit('addArtist', data);
+            });
+        });
+        
+        socket.on('addAlbum', function(guid) {
+            api.addAlbum(guid)(function (data) {
+                socket.emit('addAlbum', data);
+            });
+        });
 
         socket.on('disconnect', function () {
             console.log('A frontend client disconnected...');

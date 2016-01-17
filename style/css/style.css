@@ -94,6 +94,25 @@ span.download {
     right: 17px;
 }
 
+/* Styling for Artist Search  */
+div.artist-name {
+    background-color: #e9f6ff;
+    margin: 20px auto 20px auto;
+    width: 400px;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div.artist-name:hover {
+    background-color: #999999;
+}
+
+/* Styling for generic information containers */
 div.poster-container {
     width: 250px;
     height: 100%;
