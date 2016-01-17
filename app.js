@@ -25,7 +25,14 @@ io.on('connection', function(socket) {
                 socket.emit('searchForMovie', data); 
             });
         });
-        
+       
+        socket.on('searchForTVShow', function(title) {
+            api.searchForTVShow(title)(function (data) {
+                console.log(data);
+                socket.emit('searchForTVShow', data);
+            });
+        });
+
         socket.on('addMovie', function(info) {
             api.addMovie(info.title, info.identifier)(function (data) {
                 socket.emit('addMovie', data);

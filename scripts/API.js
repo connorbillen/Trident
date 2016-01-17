@@ -2,7 +2,7 @@ var http        = require('http');
 var deferred    = require('deferred');
 
 var cpKey       = '5b33f28344174ff683b9e04d89e58f2a';
-var sbKey       = '';
+var sbKey       = '6580a1ce694ec2b079ef8eaa9cdee621';
 var hpKey       = 'cf2b3fd4df738e1f0789b9061b25dacf';
 
 var host        = '10.0.0.8';
@@ -12,8 +12,34 @@ var sbPort      = '5051';
 var hpPort      = '5052';
 
 var cpPath       = '/api/' + cpKey + '/';
-var sbPath       = sbKey;
+var sbPath       = '/api/' + sbKey + '/?cmd=';
 var hpPath       = '/api?apikey=' + hpKey + '&cmd=';
+
+// TV functions
+function searchForTVShow(title) {
+    var response = deferred();
+
+    http.request({ 'host': host, 'port': sbPort, 'path': sbPath + 'sb.searchtvdb&name=' + encodeURI(title) + '&lang=en'},
+        function processTVSearch(data) {
+            var json = '';
+            
+            data.on('data', function(chunk) {
+                json += chunk;
+            });
+
+            data.on('end', function() {
+                response.resolve(json);
+            });
+
+            data.on('error', function(error) {
+                console.log(error);
+            });
+        }).on('error', function(error) {
+        }).end();;
+    
+
+    return response.promise;
+}
 
 // Music functions
 function getAlbumArt(guid) {
@@ -213,3 +239,5 @@ exports.addMovie        = addMovie;
 exports.searchForMusic  = searchForMusic;
 exports.addArtist       = addArtist;
 exports.addAlbum        = addAlbum;
+
+exports.searchForTVShow = searchForTVShow;

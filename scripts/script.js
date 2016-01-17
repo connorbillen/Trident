@@ -45,7 +45,6 @@ socket.on('addArtist', function(artist) {
 
     html += '<div id="artist-info">';
     artist.albums.forEach(function renderAlbums(album) { 
-        console.log(album);
         html += '<div class="music">';
         html += '<span class="album-name">' + album.AlbumTitle + '</span>';
         html += '<div class="add-album" onclick="addAlbum(\'' + album.AlbumID  + '\'); ">Download Album</div>';
@@ -58,6 +57,14 @@ socket.on('addArtist', function(artist) {
 });
 
 // Socket emitters and sensors for search functions
+socket.on('searchForTVShow', function (data) {
+    var html = '';
+        data = JSON.parse(data);
+    console.log(data)
+
+    contentArea.innerHTML = html;
+});
+
 socket.on('searchForMusic', function (data) {
     var html = '';
         data = JSON.parse(data);
@@ -71,7 +78,6 @@ socket.on('searchForMusic', function (data) {
     contentArea.innerHTML = html;
 });
 
-//function called when a searchForMovie update is received -- render the results
 socket.on('searchForMovie', function (data) {
     var html = '';
         data = JSON.parse(data);
