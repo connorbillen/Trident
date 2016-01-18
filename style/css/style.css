@@ -94,8 +94,8 @@ span.download {
     right: 17px;
 }
 
-/* Styling for Artist Search  */
-div.music {
+/* Tiles are pretty generic */
+div.tile {
     background-color: #e9f6ff;
     margin: 20px auto 20px auto;
     width: 700px;
@@ -109,10 +109,73 @@ div.music {
     user-select: none;
 }
 
-div.music:hover {
+div.tile:hover {
     background-color: #999999;
 }
 
+/* Styling for TV Show Search */
+div.tvshow-name {
+    max-width: 400px;
+    white-space: nowrap;
+    float: left;
+    overflow: hidden;
+    margin-left: 50px;
+}
+
+div.tvshow-airdate {
+    float: right;
+    margin-right: 50px; 
+}
+
+/* Styling for show and episode listing */
+div.tvshow-container {
+    margin: 10px auto 10px auto;
+    width: 700px;
+    text-align: center;
+}
+
+div.tvshow-network {
+    overflow: auto;
+    float: right;
+}
+
+div.tvshow-airtime {
+    clear: both;
+    float: right;
+}
+
+div.tvshow-nextairtime {
+    clear: both;
+    float: right;
+}
+
+div.tvshow-season-container {
+    clear: both;
+}
+
+span.tvshow-season-title {
+    font-weight: 600px;
+}
+
+div.season-tile {
+    background-color: #e9f6ff;
+    margin: 10px auto 10px auto;
+    width: 700px;
+    cursor: default;
+    overflow: auto;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div.season-title:hover {
+    background-color: #999999;
+}
+
+/* Styling for Artist Search  */
 div.add-album {
     float: right; 
     margin-right: 50px;

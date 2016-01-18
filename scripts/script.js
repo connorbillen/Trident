@@ -4,6 +4,7 @@ var socket = io();
 // element selectors
 var contentArea     = document.getElementById('content');
 var search          = document.getElementById('search');
+
 // various HMTL DOM element actions
 search.onkeypress = function searchOnEnter(event) { 
     if (event.keyCode != 13)
@@ -17,6 +18,32 @@ search.onkeypress = function searchOnEnter(event) {
 
 
 // Utility socket emitters and sensors
+function getTVShow(tvdbid) {
+    socket.emit('getTVShow', tvdbid);
+}
+
+
+socket.on('addTVShow', function(tvshow) {
+    var html = '';
+    console.log(tvshow);
+        tvshow = JSON.parse(tvshow);
+    console.log(tvshow);
+
+    html += '<div class="tvshow-container">';
+    html += '<div class="tvshow-name">' + tvshow.data.show_name + '</div>';
+    html += '<div class="tvshow-network">' + tvshow.data.network + '</div>';
+    html += '<div class="tvshow-airtime">' + tvshow.data.airs + '</div>';
+    html += '<div class="tvshow-nextairtime">' + tvshow.data.next_ep_airdate + '</div>';
+    html += '<div class="tvshow-season-container"><span class="tvshow-season-title">Seasons</span>';
+    tvshow.data.season_list.forEach(function (season) {
+        html += '<div class="season-tile">Season ' + (season.length - 1 ? season + 1 : '0' + (season + 1)) + '</div>';
+    });
+    html += '</div>';
+    html += '</div>';
+    
+    contentArea.innerHTML = html;
+});
+
 // Movie functions
 function addMovie(title, imdb) {
     socket.emit('addMovie', { 'title': title, 'identifier': imdb });
@@ -45,7 +72,7 @@ socket.on('addArtist', function(artist) {
 
     html += '<div id="artist-info">';
     artist.albums.forEach(function renderAlbums(album) { 
-        html += '<div class="music">';
+        html += '<div class="tile">';
         html += '<span class="album-name">' + album.AlbumTitle + '</span>';
         html += '<div class="add-album" onclick="addAlbum(\'' + album.AlbumID  + '\'); ">Download Album</div>';
         html += '</div>';
@@ -60,7 +87,20 @@ socket.on('addArtist', function(artist) {
 socket.on('searchForTVShow', function (data) {
     var html = '';
         data = JSON.parse(data);
-    console.log(data)
+    console.log(data);
+
+    if (data.result != 'success') {
+        console.log('initial search failed, retrying...');
+        return;
+        // ToDo: Resubmit search request a limited number of times if the initial request fails 
+    }
+    
+    data.data.results.forEach(function (tvshow) {
+        html += '<div onclick="getTVShow(\'' + tvshow.tvdbid  + '\'); " class="tile">';
+        html += '<div class="tvshow-name">'+ tvshow.name  + '</div>';
+        html += '<div class="tvshow-airdate">' + (tvshow.first_aired ? tvshow.first_aired : 'Airdate unknown') + '</div>';
+        html += '</div>';
+    });
 
     contentArea.innerHTML = html;
 });
@@ -70,7 +110,7 @@ socket.on('searchForMusic', function (data) {
         data = JSON.parse(data);
 
     for (var artist in data) {
-        html += '<div class="music">';
+        html += '<div class="tile">';
         html += '<div onclick="addArtist(\'' + data[artist].id + '\'); " class="artist-name">' + data[artist].uniquename + '</div>';
         html += '</div>';
     }

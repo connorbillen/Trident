@@ -25,10 +25,16 @@ io.on('connection', function(socket) {
                 socket.emit('searchForMovie', data); 
             });
         });
-       
+      
+        socket.on('getTVShow', function(tvdbid) {
+            api.getTVShow(tvdbid)(function (data) {
+                console.log(data);
+                socket.emit('addTVShow', data);
+            });
+        });
+
         socket.on('searchForTVShow', function(title) {
             api.searchForTVShow(title)(function (data) {
-                console.log(data);
                 socket.emit('searchForTVShow', data);
             });
         });
