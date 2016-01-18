@@ -16,6 +16,30 @@ var sbPath       = '/api/' + sbKey + '/?cmd=';
 var hpPath       = '/api?apikey=' + hpKey + '&cmd=';
 
 // TV functions
+function addTVSeason(tvdbid, season) {
+    var response = deferred();
+    http.request({ 'host': host, 'port': sbPort, 'path': sbPath + 'episode.search&tvdbid=' + tvdbid + '&season=' + season },
+        function processAddTVSeason(data) {
+            var json = '';
+
+            data.on('data', function(chunk) {
+                json += chunk;
+            });
+
+            data.on('end', function() {
+                response.resolve(json);
+            }); 
+
+            data.on('error', function (error) {
+                console.log(error);
+            }); 
+        }).on('error', function (error) {
+            console.log(error); 
+        }).end();
+
+    return response.promise;
+}
+
 function getTVShow(tvdbid) {
     var response = deferred();
 
@@ -300,3 +324,4 @@ exports.addAlbum        = addAlbum;
 
 exports.searchForTVShow = searchForTVShow;
 exports.getTVShow       = getTVShow;
+exports.addTVSeason     = addTVSeason;

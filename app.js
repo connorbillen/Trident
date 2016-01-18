@@ -25,10 +25,15 @@ io.on('connection', function(socket) {
                 socket.emit('searchForMovie', data); 
             });
         });
-      
+     
+        socket.on('addTVSeason', function(info) {
+            api.addTVSeason(info.tvdbid, info.season)(function (data) {
+                socket.emit('addTVSeason', data);
+            });;
+        });
+
         socket.on('getTVShow', function(tvdbid) {
             api.getTVShow(tvdbid)(function (data) {
-                console.log(data);
                 socket.emit('addTVShow', data);
             });
         });

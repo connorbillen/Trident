@@ -18,16 +18,21 @@ search.onkeypress = function searchOnEnter(event) {
 
 
 // Utility socket emitters and sensors
+function addTVSeason(tvdbid, season) {
+    socket.emit('addTVSeason', { 'tvdbid': tvdbid, 'season': season });
+}
+
 function getTVShow(tvdbid) {
     socket.emit('getTVShow', tvdbid);
 }
 
+socket.on('addTVSeason', function(data) {
+    console.log(data);
+});
 
 socket.on('addTVShow', function(tvshow) {
     var html = '';
-    console.log(tvshow);
         tvshow = JSON.parse(tvshow);
-    console.log(tvshow);
 
     html += '<div class="tvshow-container">';
     html += '<div class="tvshow-name">' + tvshow.data.show_name + '</div>';
@@ -36,7 +41,8 @@ socket.on('addTVShow', function(tvshow) {
     html += '<div class="tvshow-nextairtime">' + tvshow.data.next_ep_airdate + '</div>';
     html += '<div class="tvshow-season-container"><span class="tvshow-season-title">Seasons</span>';
     tvshow.data.season_list.forEach(function (season) {
-        html += '<div class="season-tile">Season ' + (season.length - 1 ? season + 1 : '0' + (season + 1)) + '</div>';
+        html += '<div onclick="addTVSeason(\'' + tvshow.data.indexerid + '\', \'' + season + \'); " class="season-tile">Season ' 
+                                               + (season.length - 1 ? season + 1 : '0' + (season + 1)) + '</div>';
     });
     html += '</div>';
     html += '</div>';
