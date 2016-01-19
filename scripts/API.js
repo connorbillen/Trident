@@ -1,6 +1,16 @@
 var http        = require('http');
 var deferred    = require('deferred');
+var options     = require('./options');
 
+/* Below are the functions for searching, adding, and post-processing
+ * TV Shows. If you're trying to change a source for a category of media
+ * or looking for an example of a finished snatcher module, look at the
+ * files referred to in the Docs.                                      */
+function searchForTVShow(artist) {
+}
+
+
+/** EVERYTHING BELOW THIS LINE IS DEPRECATED AND BEING REPLACED **/
 var cpKey       = '5b33f28344174ff683b9e04d89e58f2a';
 var sbKey       = '6580a1ce694ec2b079ef8eaa9cdee621';
 var hpKey       = 'cf2b3fd4df738e1f0789b9061b25dacf';
