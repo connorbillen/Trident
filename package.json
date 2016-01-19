@@ -27,9 +27,6 @@
   "dependencies": {
     "deferred": "^0.7.4",
     "express": "^4.13.3",
-    "jayson": "^1.2.2",
-    "json-rpc2": "^1.0.2",
-    "node-json-rpc": "0.0.1",
     "socket.io": "^1.4.4"
   }
 }
