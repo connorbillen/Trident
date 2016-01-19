@@ -27,7 +27,10 @@ io.on('connection', function(socket) {
         });
      
         socket.on('query', function(info) {
-            api.query(info.cmd, info.options);  
+            console.log(info);
+            api.query(info.cmd, info.options)(function (json) {
+                socket.emit('response', json);
+            });
         });
 
         socket.on('addMovie', function(info) {

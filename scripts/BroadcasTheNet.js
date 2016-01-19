@@ -3,18 +3,20 @@ var deferred    = require('deferred');
 var config      = require('../config');
 
 function searchForTVShow(title) {
+    var response = deferred();
+    
     var postData = JSON.stringify({
         'method': 'getTorrents',
-        'params': ['35348e9ad7f0f66b32cc1c799271d110', 
+        'params': [ config[config.tvshows].key, // '35348e9ad7f0f66b32cc1c799271d110', 
                   [ { 'series': title, 'category': 'Season' }], 
                   10, 0],
         'id': 'example1'
     });
 
     var postOptions = {
-        host: 'api.btnapps.net',
-        port: '80',
-        path: '/',
+        host: config[config.tvshows].host, // 'api.btnapps.net',
+        port: config[config.tvshows].port, // 80
+        path: config[config.tvshows].path, // '/',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -29,7 +31,7 @@ function searchForTVShow(title) {
         });
 
         res.on('end', function() {
-            console.log(json);
+            response.resolve(json);
         });
 
         res.on('error', function(error) {
@@ -41,6 +43,8 @@ function searchForTVShow(title) {
 
     postRequest.write(postData);
     postRequest.end();
+
+    return response.promise;
 }
 
 exports.search = searchForTVShow;

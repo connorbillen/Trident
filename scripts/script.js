@@ -13,11 +13,18 @@ search.onkeypress = function searchOnEnter(event) {
     var dropdown    = document.getElementById("search-type");
     var type        = dropdown.options[dropdown.selectedIndex].value;
 
-    socket.emit('searchFor' + type, encodeURI(search.value)); 
+    //socket.emit('searchFor' + type, encodeURI(search.value)); 
+    socket.emit('query', { 'cmd': 'search', 'options': { 'type': type, 'title': search.value } });
 }
 
-// Button click handler functions
+// Socket event handlers
+socket.on('response', function(json) {
+    var html = '';
+        json = JSON.parse(json);
+    console.log(json);
 
+    contentArea.innerHTML = html;
+});
 
 
 /* Pretty much all of this is deprecated and being phased out

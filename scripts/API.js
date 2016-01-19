@@ -8,7 +8,7 @@ var tvshows     = require('./' + config.tvshows);
 function query(cmd, options) {
     var response = deferred();
 
-    if (options.type == 'tvshows') {
+    if (options.type == 'TVShow') {
         tvshows[cmd](options.title)(
             function(json) {
                 response.resolve(json);
