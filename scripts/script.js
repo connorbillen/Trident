@@ -16,7 +16,12 @@ search.onkeypress = function searchOnEnter(event) {
     socket.emit('searchFor' + type, encodeURI(search.value)); 
 }
 
+// Button click handler functions
 
+
+
+/* Pretty much all of this is deprecated and being phased out
+ * as the SickBeard/CouchPotato/Headphones are replacred */
 // Utility socket emitters and sensors
 function addTVSeason(tvdbid, season) {
     socket.emit('addTVSeason', { 'tvdbid': tvdbid, 'season': season });
@@ -41,8 +46,8 @@ socket.on('addTVShow', function(tvshow) {
     html += '<div class="tvshow-nextairtime">' + tvshow.data.next_ep_airdate + '</div>';
     html += '<div class="tvshow-season-container"><span class="tvshow-season-title">Seasons</span>';
     tvshow.data.season_list.forEach(function (season) {
-        html += '<div onclick="addTVSeason(\'' + tvshow.data.indexerid + '\', \'' + season + \'); " class="season-tile">Season ' 
-                                               + (season.length - 1 ? season + 1 : '0' + (season + 1)) + '</div>';
+        html += '<div onclick="addTVSeason(\'' + tvshow.data.indexerid + '\', \'' + season + '\'); " class="season-tile">Season ' +
+                                                 (season.length - 1 ? season + 1 : '0' + (season + 1)) + '</div>';
     });
     html += '</div>';
     html += '</div>';

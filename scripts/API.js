@@ -1,14 +1,25 @@
 var http        = require('http');
 var deferred    = require('deferred');
-var options     = require('./options');
+var config      = require('../config');
+var tvshows     = require('./' + config.tvshows);
+// var music     = require('./' + options.music);
+// var movies    = require('./' + options.movies);
 
-/* Below are the functions for searching, adding, and post-processing
- * TV Shows. If you're trying to change a source for a category of media
- * or looking for an example of a finished snatcher module, look at the
- * files referred to in the Docs.                                      */
-function searchForTVShow(artist) {
+function query(cmd, options) {
+    var response = deferred();
+
+    if (options.type == 'tvshows') {
+        tvshows[cmd](options.title)(
+            function(json) {
+                response.resolve(json);
+            }
+        );
+    }
+        
+    return response.promise;
 }
 
+exports.query = query;
 
 /** EVERYTHING BELOW THIS LINE IS DEPRECATED AND BEING REPLACED **/
 var cpKey       = '5b33f28344174ff683b9e04d89e58f2a';

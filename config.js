@@ -1,3 +1,8 @@
+// Set which source is being used for which category of media
+exports.tvshows = 'BroadcasTheNet';
+exports.music   = 'WhatCD';
+exports.movies  = 'PassThePopcorn';
+
 // Options for each module that is used for obtaining files
 
 // BroadcasTheNet
@@ -5,7 +10,7 @@ exports.BroadcasTheNet = {
     key  : '35348e9ad7f0f66b32cc1c799271d110',
     host : 'http://api.btnapps.net/',
     path : '/',
-    port : 8080
+    port : 80
 };
 
 // WhatCD

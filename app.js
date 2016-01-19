@@ -26,22 +26,8 @@ io.on('connection', function(socket) {
             });
         });
      
-        socket.on('addTVSeason', function(info) {
-            api.addTVSeason(info.tvdbid, info.season)(function (data) {
-                socket.emit('addTVSeason', data);
-            });;
-        });
-
-        socket.on('getTVShow', function(tvdbid) {
-            api.getTVShow(tvdbid)(function (data) {
-                socket.emit('addTVShow', data);
-            });
-        });
-
-        socket.on('searchForTVShow', function(title) {
-            api.searchForTVShow(title)(function (data) {
-                socket.emit('searchForTVShow', data);
-            });
+        socket.on('query', function(info) {
+            api.query(info.cmd, info.options);  
         });
 
         socket.on('addMovie', function(info) {

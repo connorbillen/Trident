@@ -43,6 +43,4 @@ function searchForTVShow(title) {
     postRequest.end();
 }
 
-searchForTVShow('Adventure Time');
-
 exports.search = searchForTVShow;
