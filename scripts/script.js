@@ -17,12 +17,13 @@ search.onkeypress = function searchOnEnter(event) {
     socket.emit('query', { 'cmd': 'search', 'options': { 'type': type, 'title': search.value } });
 }
 
-// Socket event handlers
-socket.on('response', function(json) {
-    var html = '';
-        json = JSON.parse(json);
-    console.log(json);
+function expand(e) {
+    console.log(e.children);
+}
 
+// Socket event handlers
+socket.on('response', function(html) {
+    console.log(html);
     contentArea.innerHTML = html;
 });
 

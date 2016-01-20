@@ -10,8 +10,8 @@ function query(cmd, options) {
 
     if (options.type == 'TVShow') {
         tvshows[cmd](options.title)(
-            function(json) {
-                response.resolve(json);
+            function(html) {
+                response.resolve(html);
             }
         );
     }
