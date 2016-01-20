@@ -10,7 +10,7 @@ function searchForTVShow(title) {
         'params': [ config[config.tvshows].key, // '35348e9ad7f0f66b32cc1c799271d110', 
                   [ { 'series': title, 'category': 'Season' }], 
                   10, 0],
-        'id': 'example1'
+        'id': 'query'
     });
 
     var postOptions = {
