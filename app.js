@@ -14,6 +14,15 @@ app.get('/', function (req, res) {
 io.on('connection', function(socket) {
         console.log('A frontend client connected...');
 
+        socket.on('query', function(info) {
+            console.log(info);
+            api.query(info.cmd, info.options)(function (html) {
+                if (html)
+                    socket.emit('response', html);
+            });
+        });
+
+
         socket.on('searchForMusic', function(artist) {
             api.searchForMusic(artist)(function (data) {
                 socket.emit('searchForMusic', data);
@@ -26,13 +35,6 @@ io.on('connection', function(socket) {
             });
         });
      
-        socket.on('query', function(info) {
-            console.log(info);
-            api.query(info.cmd, info.options)(function (json) {
-                socket.emit('response', json);
-            });
-        });
-
         socket.on('addMovie', function(info) {
             api.addMovie(info.title, info.identifier)(function (data) {
                 socket.emit('addMovie', data);

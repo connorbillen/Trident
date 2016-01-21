@@ -1,7 +1,47 @@
 var http        = require('http');
+var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
 
+http://nodejs.org/api.html#_child_processes
+// executes `pwd`
+child = exec("pwd", function (error, stdout, stderr) {
+  sys.print('stdout: ' + stdout);
+    sys.print('stderr: ' + stderr);
+      if (error !== null) {
+          console.log('exec error: ' + error);
+            }
+            });
+
+/* This is where the download-related 
+   functions are. Search functions
+   are below this sectioin          */ 
+
+// Exported function that is called as the download endpoint for the BroadcasTheNet module
+function downloadTVShow(url) {
+    var response = deferred();
+
+    var download = exec('wget --no-check-certificate ' + url + ' "' + config[config.tvshows].watch_dir + '"', 
+        function processDownload(error, stdout, stderr) {
+            if (error) {
+                console.log(stderr);
+                return;
+            }
+
+            console.log(stdout);
+            response.resolve();
+        }
+    );
+
+    return response.promise;
+}
+
+
+/* This is where the search related 
+   functions are. Exports are at the
+   bottom of the file.             */ 
+
+// Exported function that is called as the search endpoint for the BroadcasTheNet module
 function searchForTVShow(title, count) {
     var response = deferred();
     count = (count ? count : 1)
@@ -108,9 +148,9 @@ function render(json) {
                 json[series][season][resolution].forEach(function (download) {
                     html += '<div class="season-resolution-download">';
                     html += '<span class="season-resolution-download-information">' + download.container + ' - ' 
-                                                                                   + download.source + '-'
-                                                                                   + download.size + '</span>';
-                    html += '<input class="season-resolution-download-button" type="button" value="Download">'
+                                                                                    + download.source + '-'
+                                                                                    + download.size + '</span>';
+                    html += '<input class="season-resolution-download-button" onclick="download(\'TVShow\', \'' + download.url  + '\'); " type="button" value="Download">'
                     html += '</div>';
                 });
                 html += '</div>';
@@ -125,4 +165,5 @@ function render(json) {
     return html;
 }
 
-exports.search = searchForTVShow;
+exports.search      = searchForTVShow;
+exports.download    = downloadTVShow;

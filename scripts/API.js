@@ -9,9 +9,9 @@ function query(cmd, options) {
     var response = deferred();
 
     if (options.type == 'TVShow') {
-        tvshows[cmd](options.title)(
-            function(html) {
-                response.resolve(html);
+        tvshows[cmd](options.data)(
+            function(response) {
+                response.resolve();
             }
         );
     }

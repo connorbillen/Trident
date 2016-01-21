@@ -14,11 +14,15 @@ search.onkeypress = function searchOnEnter(event) {
     var type        = dropdown.options[dropdown.selectedIndex].value;
 
     //socket.emit('searchFor' + type, encodeURI(search.value)); 
-    socket.emit('query', { 'cmd': 'search', 'options': { 'type': type, 'title': search.value } });
+    socket.emit('query', { 'cmd': 'search', 'options': { 'type': type, 'data': search.value } });
 }
 
 function expand(e) {
     console.log(e.children);
+}
+
+function download(type, url) {
+    socket.emit('query', { 'cmd': 'download', 'options': { 'type': type, 'data': url } });
 }
 
 // Socket event handlers
@@ -29,7 +33,7 @@ socket.on('response', function(html) {
 
 
 /* Pretty much all of this is deprecated and being phased out
- * as the SickBeard/CouchPotato/Headphones are replacred */
+ * as the SickBeard/CouchPotato/Headphones reqs are replaced */
 // Utility socket emitters and sensors
 function addTVSeason(tvdbid, season) {
     socket.emit('addTVSeason', { 'tvdbid': tvdbid, 'season': season });
