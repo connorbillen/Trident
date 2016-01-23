@@ -21,12 +21,6 @@ io.on('connection', function(socket) {
         });
 
 
-        socket.on('searchForMusic', function(artist) {
-            api.searchForMusic(artist)(function (data) {
-                socket.emit('searchForMusic', data);
-            });
-        });
-
         socket.on('searchForMovie', function(title) {
             api.searchForMovie(title)(function (data) { 
                 socket.emit('searchForMovie', data); 
@@ -36,18 +30,6 @@ io.on('connection', function(socket) {
         socket.on('addMovie', function(info) {
             api.addMovie(info.title, info.identifier)(function (data) {
                 socket.emit('addMovie', data);
-            });
-        });
-        
-        socket.on('addArtist', function(guid) {
-            api.addArtist(guid)(function (data) {
-                socket.emit('addArtist', data);
-            });
-        });
-        
-        socket.on('addAlbum', function(guid) {
-            api.addAlbum(guid)(function (data) {
-                socket.emit('addAlbum', data);
             });
         });
 

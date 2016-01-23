@@ -2,7 +2,7 @@ var http        = require('http');
 var deferred    = require('deferred');
 var config      = require('../config');
 var tvshows     = require('./' + config.tvshows);
-// var music     = require('./' + options.music);
+var music       = require('./' + config.music);
 // var movies    = require('./' + options.movies);
 
 function query(cmd, options) {
@@ -15,6 +15,12 @@ function query(cmd, options) {
         tvshows[cmd](options.data)(
             function(data) {
                 response.resolve(data);
+            }
+        );
+    } else if (options.type == 'Music') {
+        music.login(
+            function(data) {
+                console.log(data);
             }
         );
     }
