@@ -4,7 +4,7 @@ Combining the joys of SickBeard, CouchPotato, and Headphones into one happy, sea
 	[ ] Trident v1.0
     	[ ] TV Shows -- BTN
         	[x] Create SickBeard frontend
-        	[ ] Replace SickBeard search/add functionality
+        	[x] Replace SickBeard search/add functionality
         	[ ] Replace SickBeard post-processing functionality
 	    [ ] Movies -- PTP
         	[x] Create CouchPotato frontend
