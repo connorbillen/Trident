@@ -3,25 +3,15 @@ var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
 
-http://nodejs.org/api.html#_child_processes
-// executes `pwd`
-child = exec("pwd", function (error, stdout, stderr) {
-  sys.print('stdout: ' + stdout);
-    sys.print('stderr: ' + stderr);
-      if (error !== null) {
-          console.log('exec error: ' + error);
-            }
-            });
-
 /* This is where the download-related 
    functions are. Search functions
    are below this sectioin          */ 
 
 // Exported function that is called as the download endpoint for the BroadcasTheNet module
-function downloadTVShow(url) {
+function downloadTVShow(options) {
     var response = deferred();
 
-    var download = exec('wget --no-check-certificate ' + url + ' "' + config[config.tvshows].watch_dir + '"', 
+    var download = exec('wget --no-check-certificate -O "' + config[config.tvshows].watch_dir + options.title + '.torrent" "' + options.url + '"', 
         function processDownload(error, stdout, stderr) {
             if (error) {
                 console.log(stderr);
@@ -49,7 +39,7 @@ function searchForTVShow(title, count) {
     var postData = JSON.stringify({
         'method': 'getTorrents',
         'params': [ config[config.tvshows].key, // '35348e9ad7f0f66b32cc1c799271d110', 
-                  [ { 'series': title, 'category': 'Season', 'resolution': config[config.tvshows].resolutions, 'source': config[config.tvshows].resolution }], 
+                  [ { 'series': '%' + title + '%', 'category': 'Season', 'resolution': config[config.tvshows].resolutions, 'source': config[config.tvshows].resolution }], 
                   count, 0],
         'id': 'query'
     });
@@ -73,10 +63,13 @@ function searchForTVShow(title, count) {
 
         res.on('end', function() {
             var obj = JSON.parse(json);
+            console.log(obj);
+            
             if (Object.keys(obj.result.torrents).length < obj.result.results) {
                 console.log('getting the rest of the results');
                 searchForTVShow(title, parseInt(obj.result.results)).then(function(json) {
-                    response.resolve(process(json));       
+                    var html = process(json);
+                    response.resolve(html);       
                 });
             } else {
                 response.resolve(json);
@@ -100,8 +93,6 @@ function searchForTVShow(title, count) {
 function process(json) {
     var series  = {};
         json    = JSON.parse(json);
-
-    console.log('processing...');
 
     for (var torrentId in json.result.torrents) {
         var torrent = json.result.torrents[torrentId];
@@ -150,7 +141,8 @@ function render(json) {
                     html += '<span class="season-resolution-download-information">' + download.container + ' - ' 
                                                                                     + download.source + '-'
                                                                                     + download.size + '</span>';
-                    html += '<input class="season-resolution-download-button" onclick="download(\'TVShow\', \'' + download.url  + '\'); " type="button" value="Download">'
+                    html += '<input class="season-resolution-download-button" onclick="download(\'TVShow\', \'' 
+                            + download.url  + '\', \'' + series + ' - ' + season + '\'); " type="button" value="Download">'
                     html += '</div>';
                 });
                 html += '</div>';
@@ -160,8 +152,9 @@ function render(json) {
         }
         html += '</div>';
         html += '</div>';
+        html += '</div>';
     }
-    
+   
     return html;
 }
 

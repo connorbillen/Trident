@@ -21,14 +21,14 @@ function expand(e) {
     console.log(e.children);
 }
 
-function download(type, url) {
-    socket.emit('query', { 'cmd': 'download', 'options': { 'type': type, 'data': url } });
+function download(type, url, title) {
+    socket.emit('query', { 'cmd': 'download', 'options': { 'type': type, 'data': { 'url': url, 'title': title } } });
 }
 
 // Socket event handlers
 socket.on('response', function(html) {
-    console.log(html);
-    contentArea.innerHTML = html;
+    if (html)
+        contentArea.innerHTML = html;
 });
 
 

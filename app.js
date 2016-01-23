@@ -15,10 +15,8 @@ io.on('connection', function(socket) {
         console.log('A frontend client connected...');
 
         socket.on('query', function(info) {
-            console.log(info);
             api.query(info.cmd, info.options)(function (html) {
-                if (html)
-                    socket.emit('response', html);
+                socket.emit('response', html);
             });
         });
 

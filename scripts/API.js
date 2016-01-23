@@ -8,10 +8,13 @@ var tvshows     = require('./' + config.tvshows);
 function query(cmd, options) {
     var response = deferred();
 
+    console.log('cmd: ' + cmd);
+    console.log('options: ' + JSON.stringify(options));
+
     if (options.type == 'TVShow') {
         tvshows[cmd](options.data)(
-            function(response) {
-                response.resolve();
+            function(data) {
+                response.resolve(data);
             }
         );
     }
