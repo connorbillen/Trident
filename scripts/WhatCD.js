@@ -1,8 +1,21 @@
+'use strict';
+
 var https       = require('https');
+var http        = require('http');
+var request     = require('request');
+    request     = request.defaults({jar: true});
 var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
 
+// Login to the WhatCD API using the username and password supplied in the config file
+var host = config[config.music];
+request.post({ url: host.host + host.path + 'login.php', form: { username: host.username, password: host.password }}, 
+    function(err, httpResponse, body) { 
+        if (err)
+            console.log(err);
+    }
+);
 /* This is where the download-related 
    functions are. Search functions
    are below this sectioin          */ 
@@ -32,176 +45,31 @@ function downloadAlbum(options) {
    bottom of the file.             */ 
 
 // Exported function that is called as the search endpoint for the BroadcasTheNet module
-function searchForArtist(title, count) {
-    var response = deferred();
-    count = (count ? count : 1)
+function searchForArtist(artist) {
+    var response    = deferred();
+    var host        = config[config.music];
+/*
+    ajax.php?action=browse&searchstr=<Search Term>
+    searchstr - string to search for
 
-    var postData = JSON.stringify({
-        'method': 'getTorrents',
-        'params': [ config[config.music].key, // '35348e9ad7f0f66b32cc1c799271d110', 
-                  [ { 'series': '%' + title + '%', 'category': 'Season', 'resolution': config[config.music].resolutions, 'source': config[config.music].resolution }], 
-                  count, 0],
-        'id': 'query'
+    page - page to display (default: 1)
+
+    taglist, tags_type, order_by, order_way, filter_cat, freetorrent, vanityhouse, scene, haslog, releasetype, media, format, encoding, artistname, filelist, groupname, recordlabel, cataloguenumber, year, remastertitle, remasteryear, remasterrecordlabel, remastercataloguenumber
+*/
+    request(host.host + host.path + 'ajax.php?action=browse&searchstr=' + artist, function (error, response, body) {
+        console.log(body);
     });
-
-    var postOptions = {
-        host: config[config.music].host, // 'api.btnapps.net',
-        port: config[config.music].port, // 80
-        path: config[config.music].path, // '/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    var postRequest = http.request(postOptions, function(res) {
-        var json = ''
-
-        res.on('data', function(chunk) {
-            json += chunk;
-        });
-
-        res.on('end', function() {
-            var obj = JSON.parse(json);
-            console.log(obj);
-            
-            if (Object.keys(obj.result.torrents).length < obj.result.results) {
-                console.log('getting the rest of the results');
-                searchForTVShow(title, parseInt(obj.result.results)).then(function(json) {
-                    var html = process(json);
-                    response.resolve(html);       
-                });
-            } else {
-                response.resolve(json);
-            }
-        });
-
-        res.on('error', function(error) {
-            console.log(error);
-        });
-    }).on('error', function(error) {
-        console.log(error);
-    });
-
-    postRequest.write(postData);
-    postRequest.end();
 
     return response.promise;
 }
 
 // Convert the returned JSON into a usable, organized structure
 function process(json) {
-    var series  = {};
-        json    = JSON.parse(json);
-
-    for (var torrentId in json.result.torrents) {
-        var torrent = json.result.torrents[torrentId];
-        if (!series[torrent.Series])
-            series[torrent.Series] = {
-                'Poster'    : torrent.SeriesPoster,
-            };
-        if (!series[torrent.Series][torrent.GroupName])
-            series[torrent.Series][torrent.GroupName] = {};
-
-        if (!series[torrent.Series][torrent.GroupName][torrent.Resolution])
-            series[torrent.Series][torrent.GroupName][torrent.Resolution] = [];
-
-        series[torrent.Series][torrent.GroupName][torrent.Resolution].push({
-            container   : torrent.Container,
-            source      : torrent.Source,
-            size        : Math.floor((torrent.Size / 1000000000) + .5) + ' GB',
-            url         : torrent.DownloadURL
-        });
-    }
-
-    return render(series);
 }
 
 // Render the passed JSON object into an HTML string
 function render(json) {
-    var html = '';
-    
-    for (var series in json) {
-        html += '<div class="tile">';
-        html += '<img class="tvshow-poster" alt="Poster" src="' + json[series].Poster + '">';
-        html += '<div class="tvshow-name">' + series + '</div>';
-        html += '<div class="seasons-container">';
-        for (var season in json[series]) {
-            html += '<div class="season">';
-            if (season == 'Poster')
-                continue;
-            
-            html += '<div class="season-name" onclick="expand(this.parentNode); ">' + season + '</div>';
-            html += '<div class="season-resolution-container">';
-            for (var resolution in json[series][season]) {
-                html += '<div class="season-resolution">' + resolution + '</div>';
-                html += '<div class="season-resolution-download-container">';
-                json[series][season][resolution].forEach(function (download) {
-                    html += '<div class="season-resolution-download">';
-                    html += '<span class="season-resolution-download-information">' + download.container + ' - ' 
-                                                                                    + download.source + '-'
-                                                                                    + download.size + '</span>';
-                    html += '<input class="season-resolution-download-button" onclick="download(\'TVShow\', \'' 
-                            + download.url  + '\', \'' + series + ' - ' + season + '\'); " type="button" value="Download">'
-                    html += '</div>';
-                });
-                html += '</div>';
-            }
-            html += '</div>';
-            html += '</div>';
-        }
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-    }
-   
-    return html;
 }
 
-function login() {
-    var response = deferred();
-
-    console.log('logging in..');
-    
-    var postData = JSON.stringify({
-        'username': config[config.music].username,
-        'password': config[config.music].password 
-   });
-
-    var postOptions = {
-       host: config[config.music].host,
-       port: config[config.music].port,
-       path: config[config.music].path + 'login.php',
-       method: 'POST',
-       headers: {
-           //'Content-Type': 'application/x-www-form-urlencoded'
-       }
-    };
-
-    console.log(config[config.music].host + config[config.music].path + 'login.php');
-
-    var postRequest = https.request(postOptions, function(res) {
-        var json = ''
-
-        res.on('data', function(chunk) {
-            json += chunk;
-        });
-
-        res.on('end', function() {
-            console.log(json);
-            response.resolve(obj);
-        });
-    }).on('error', function(error) {
-        console.log(error);
-    });
-
-    postRequest.write(postData);
-
-    postRequest.end();
-
-    return response.promise;
-}
-
-exports.login       = login;
 exports.search      = searchForArtist;
 exports.download    = downloadAlbum;

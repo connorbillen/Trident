@@ -18,9 +18,9 @@ function query(cmd, options) {
             }
         );
     } else if (options.type == 'Music') {
-        music.login(
+        music[cmd](options.data)(
             function(data) {
-                console.log(data);
+                response.resolve(data);
             }
         );
     }

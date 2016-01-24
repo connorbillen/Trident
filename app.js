@@ -16,7 +16,8 @@ io.on('connection', function(socket) {
 
         socket.on('query', function(info) {
             api.query(info.cmd, info.options)(function (html) {
-                socket.emit('response', html);
+                console.log(html);
+                //socket.emit('response', html);
             });
         });
 
