@@ -48,23 +48,28 @@ function downloadAlbum(options) {
 function searchForArtist(artist) {
     var response    = deferred();
     var host        = config[config.music];
-/*
-    ajax.php?action=browse&searchstr=<Search Term>
-    searchstr - string to search for
-
-    page - page to display (default: 1)
-
-    taglist, tags_type, order_by, order_way, filter_cat, freetorrent, vanityhouse, scene, haslog, releasetype, media, format, encoding, artistname, filelist, groupname, recordlabel, cataloguenumber, year, remastertitle, remasteryear, remasterrecordlabel, remastercataloguenumber
-*/
-    request(host.host + host.path + 'ajax.php?action=browse&searchstr=' + artist, function (error, response, body) {
-        console.log(body);
+    
+    request(host.host + host.path + 'ajax.php?action=artist&artistname=' + encodeURI(artist), function (error, res, body) {
+        response.resolve(process(artist, body));
     });
 
     return response.promise;
 }
 
 // Convert the returned JSON into a usable, organized structure
-function process(json) {
+function process(artistname, json) {
+    var releases = JSON.parse(json).response.torrentgroup;
+    var albums = [];
+        
+    for (var release in releases) {
+        for (var artist in releases[release].artists) {
+            if (releases[release].artists[artist].name.toUpperCase().search(artistname.toUpperCase()) != -1 &&
+                releases[release].releaseType == 1)
+                albums.push(releases[release]);
+        }
+    }
+
+    return JSON.stringify(albums);
 }
 
 // Render the passed JSON object into an HTML string
