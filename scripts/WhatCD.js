@@ -64,16 +64,49 @@ function process(artistname, json) {
     for (var release in releases) {
         for (var artist in releases[release].artists) {
             if (releases[release].artists[artist].name.toUpperCase().search(artistname.toUpperCase()) != -1 &&
-                releases[release].releaseType == 1)
-                albums.push(releases[release]);
+                releases[release].releaseType == 1) {
+                var newalbum = {
+                    'name'      : releases[release].groupName,
+                    'image'     : releases[release].wikiImage,
+                    'torrents'  : releases[release].torrent
+                };
+
+                albums.forEach(function (album) {
+                    if (album.name == newalbum.name)
+                        newalbum = null; 
+                });
+                
+                if (newalbum)
+                    albums.push(newalbum);
+            }
         }
     }
 
-    return JSON.stringify(albums);
+    return render(albums);
 }
 
 // Render the passed JSON object into an HTML string
 function render(json) {
+    var html = '';
+
+    for (var album in json) {
+        html += '<div class="tile">';
+        html += '<img class="album-art" alt="album-art" src="' + json[album].image  + '">';
+        html += '<div class="album-name">' + json[album].name + '</div>';
+        html += '<div class="album-download-container">';
+        for (var torrent in json[album].torrents) {
+            console.log(json[album].torrents[torrent]);
+            html += '<div class="album-download">';
+            html += '<span class="album-source">' + json[album].torrents[torrent].media + '</span>';
+            html += '<span class="album-encoding">' + json[album].torrents[torrent].format + '</span><br>';
+            html += '<input class="album-download-button" type="button" value="Download">';
+            html += '</div>';
+        }
+        html += '</div>';
+        html += '</div>';
+    }
+
+    return html;
 }
 
 exports.search      = searchForArtist;

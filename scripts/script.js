@@ -27,11 +27,8 @@ function download(type, url, title) {
 
 // Socket event handlers
 socket.on('response', function(html) {
-    if (html) {
-        console.log(JSON.parse(html));
-    }
-
-    // contentArea.innerHTML = html;
+    if (html)
+        contentArea.innerHTML = html;
 });
 
 

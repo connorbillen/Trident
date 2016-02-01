@@ -81,6 +81,48 @@ input.season-resolution-download-button {
     float: right;
 }
 
+/* Styling for music artist/album search */
+img.album-art {
+    max-width: 200px;
+    height: auto;
+    float: left;
+    margin: 10px 0px 0px 20px;
+}
+
+div.album-name {
+    margin: 10px 0px 10px 20px;
+    width: 400px;
+    display: inline-block;
+    float: left;
+    text-align: left;
+}
+
+div.album-download-container {
+    font-size: 1.0rem;
+    width: 300px;
+    float: left;
+    text-align: left;
+    margin: 0px 0px 0px 20px;
+}
+
+div.album-download {
+    display: inline-block;
+    width: 100%;
+    margin: 5px 0px 5px 0px;
+}
+
+span.album-source {
+    float: left;
+}
+
+span.album-encoding {
+    float: right;
+}
+
+input.album-download-button {
+    float: right;
+}
+
 /* Deprecated styling below, it's still in use but will be re-done after the new search is complete */
 div.movie {
     background-color: #E9F6FF;
