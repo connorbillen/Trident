@@ -36,6 +36,7 @@ div.tile {
     width: 700px;
     cursor: default;
     overflow: auto;
+    border-radius: 0.3rem;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;

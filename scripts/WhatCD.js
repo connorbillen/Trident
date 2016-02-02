@@ -60,27 +60,35 @@ function searchForArtist(artist) {
 function process(artistname, json) {
     var releases = JSON.parse(json).response.torrentgroup;
     var albums = [];
-        
+    
     for (var release in releases) {
-        for (var artist in releases[release].artists) {
-            if (releases[release].artists[artist].name.toUpperCase().search(artistname.toUpperCase()) != -1 &&
-                releases[release].releaseType == 1) {
-                var newalbum = {
-                    'name'      : releases[release].groupName,
-                    'image'     : releases[release].wikiImage,
-                    'torrents'  : releases[release].torrent
-                };
-
-                albums.forEach(function (album) {
-                    if (album.name == newalbum.name)
-                        newalbum = null; 
-                });
-                
-                if (newalbum)
-                    albums.push(newalbum);
+        releases[release].torrent.forEach(function (torrent) { 
+            for (var artist in releases[release].artists) {
+                if (releases[release].artists[artist].name.toUpperCase().search(artistname.toUpperCase()) != -1 &&
+                    releases[release].releaseType == 1) {              
+                     var newalbum = {
+                        'name'      : releases[release].groupName,
+                        'image'     : releases[release].wikiImage,
+                        'torrents'  : []
+                    };
+                    
+                    releases[release].torrent.forEach(function (torrent) {
+                        if (config[config.music].formats.indexOf(torrent.format) != -1 &&
+                            config[config.music].sources.indexOf(torrent.media) != -1)
+                            newalbum.torrents.push(torrent);
+                    });   
+                                           
+                    albums.forEach(function (album) {
+                        if (album.name == newalbum.name) 
+                            newalbum = null; 
+                    });
+                    
+                    if (newalbum)
+                        albums.push(newalbum);
+                }
             }
-        }
-    }
+        });
+    };
 
     return render(albums);
 }
@@ -95,10 +103,10 @@ function render(json) {
         html += '<div class="album-name">' + json[album].name + '</div>';
         html += '<div class="album-download-container">';
         for (var torrent in json[album].torrents) {
-            console.log(json[album].torrents[torrent]);
             html += '<div class="album-download">';
             html += '<span class="album-source">' + json[album].torrents[torrent].media + '</span>';
             html += '<span class="album-encoding">' + json[album].torrents[torrent].format + '</span><br>';
+            html += '<span class="album-size">' + Math.floor(json[album].torrents[torrent].size / 1024 / 1024) + ' MB</span>';
             html += '<input class="album-download-button" type="button" value="Download">';
             html += '</div>';
         }
