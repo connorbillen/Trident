@@ -12,7 +12,7 @@ Combining the joys of SickBeard, CouchPotato, and Headphones into one happy, sea
         	[ ] Replace CouchPotato post-processing functionality
     	[ ] Music -- What.CD
         	[x] Create Headphones frontend
-        	[ ] Replace Headphones search/add functionality
+        	[x] Replace Headphones search/add functionality
      		[ ] Replace Headphones post-processing functionality
     	[ ] Player
         	[ ] Replace Plex management (Edit/Destroy) functionality

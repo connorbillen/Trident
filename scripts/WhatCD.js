@@ -102,12 +102,17 @@ function render(json) {
         html += '<img class="album-art" alt="album-art" src="' + json[album].image  + '">';
         html += '<div class="album-name">' + json[album].name + '</div>';
         html += '<div class="album-download-container">';
+        
         for (var torrent in json[album].torrents) {
             html += '<div class="album-download">';
             html += '<span class="album-source">' + json[album].torrents[torrent].media + '</span>';
             html += '<span class="album-encoding">' + json[album].torrents[torrent].format + '</span><br>';
             html += '<span class="album-size">' + Math.floor(json[album].torrents[torrent].size / 1024 / 1024) + ' MB</span>';
-            html += '<input class="album-download-button" type="button" value="Download">';
+            html += '<input class="album-download-button" onclick="download(\'Music\', \'' + 
+                    'https://what.cd/torrents.php?action=download&id=' + json[album].torrents[torrent].id + 
+                    '&authkey=' + config[config.music].auth + '&torrent_pass=' + config[config.music].key + 
+                    '\', \'' + json[album].name + ' - ' + json[album].torrents[torrent].format + 
+                    '\')" type="button" value="Download">';
             html += '</div>';
         }
         html += '</div>';
