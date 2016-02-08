@@ -38,7 +38,7 @@ function searchForTVShow(title, count) {
 
     var postData = JSON.stringify({
         'method': 'getTorrents',
-        'params': [ config[config.tvshows].key, // '35348e9ad7f0f66b32cc1c799271d110', 
+        'params': [ config[config.tvshows].key,
                   [ { 'series': '%' + title + '%', 'category': 'Season', 'resolution': config[config.tvshows].resolutions, 'source': config[config.tvshows].resolution }], 
                   count, 0],
         'id': 'query'

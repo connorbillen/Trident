@@ -112,7 +112,7 @@ function render(json) {
                     'https://what.cd/torrents.php?action=download&id=' + json[album].torrents[torrent].id + 
                     '&authkey=' + config[config.music].auth + '&torrent_pass=' + config[config.music].key + 
                     '\', \'' + json[album].name + ' - ' + json[album].torrents[torrent].format + 
-                    '\')" type="button" value="Download">';
+                    '\'); " type="button" value="Download">';
             html += '</div>';
         }
         html += '</div>';

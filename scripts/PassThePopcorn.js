@@ -8,7 +8,7 @@ var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
 
-// Login to the WhatCD API using the username and password supplied in the config file
+// Login to the PassThePopcorn API using the username and password supplied in the config file
 var host = config[config.movies];
 request.post({ url: host.host + host.path + 'ajax.php?action=login', form: { username: host.username, password: host.password, passkey: host.auth, 
                                                                              keeplogged: 1 }}, 
@@ -23,8 +23,8 @@ request.post({ url: host.host + host.path + 'ajax.php?action=login', form: { use
    functions are. Search functions
    are below this sectioin          */ 
 
-// Exported function that is called as the download endpoint for the BroadcasTheNet module
-function downloadAlbum(options) {
+// Exported function that is called as the download endpoint for the PassThePopcorn module
+function downloadMovie(options) {
     var response = deferred();
 
     var download = exec('wget --no-check-certificate -O "' + config[config.movies].watch_dir + options.title + '.torrent" "' + options.url + '"', 
@@ -47,84 +47,66 @@ function downloadAlbum(options) {
    functions are. Exports are at the
    bottom of the file.             */ 
 
-// Exported function that is called as the search endpoint for the BroadcasTheNet module
+// Exported function that is called as the search endpoint for the PassThePopcorn module
 function searchForMovie(title) {
     var response    = deferred();
     var host        = config[config.movies];
     
-    request(host.host + host.path + 'ajax.php?action=movie&title=' + encodeURI(title), function (error, res, body) {
-        console.log(body);
-        // response.resolve(process(artist, body));
+    request(host.host + host.path + 'torrents.php?searchstr=' + encodeURI(title) + '&json=noredirect', function (error, res, body) {
+        response.resolve(process(JSON.parse(body)));
     });
 
     return response.promise;
 }
 
 // Convert the returned JSON into a usable, organized structure
-function process(artistname, json) {
-    var releases = JSON.parse(json).response.torrentgroup;
-    var albums = [];
+function process(json) {
+    var movies = [];
     
-    for (var release in releases) {
-        releases[release].torrent.forEach(function (torrent) { 
-            for (var artist in releases[release].artists) {
-                if (releases[release].artists[artist].name.toUpperCase().search(artistname.toUpperCase()) != -1 &&
-                    releases[release].releaseType == 1) {              
-                     var newalbum = {
-                        'name'      : releases[release].groupName,
-                        'image'     : releases[release].wikiImage,
-                        'torrents'  : []
-                    };
-                    
-                    releases[release].torrent.forEach(function (torrent) {
-                        if (config[config.movies].formats.indexOf(torrent.format) != -1 &&
-                            config[config.movies].sources.indexOf(torrent.media) != -1)
-                            newalbum.torrents.push(torrent);
-                    });   
-                                           
-                    albums.forEach(function (album) {
-                        if (album.name == newalbum.name) 
-                            newalbum = null; 
-                    });
-                    
-                    if (newalbum)
-                        albums.push(newalbum);
-                }
-            }
+    json.Movies.forEach(function (movie) {
+        var newmovie = {
+            'title'     : movie.Title,
+            'poster'    : movie.Cover,
+            'torrents'  : []
+        };
+    
+        movie.Torrents.forEach(function (torrent) {
+            if (config[config.movies].resolutions.indexOf(torrent.Resolution) != -1 &&
+                config[config.movies].sources.indexOf(torrent.Source) != -1)
+                newmovie.torrents.push(torrent);
         });
-    };
 
-    return render(albums);
+        if (newmovie.torrents.length)
+            movies.push(newmovie);
+    });
+
+    return render(movies);
 }
 
 // Render the passed JSON object into an HTML string
 function render(json) {
     var html = '';
 
-    for (var album in json) {
+    json.forEach(function (movie) {
         html += '<div class="tile">';
-        html += '<img class="album-art" alt="album-art" src="' + json[album].image  + '">';
-        html += '<div class="album-name">' + json[album].name + '</div>';
-        html += '<div class="album-download-container">';
-        
-        for (var torrent in json[album].torrents) {
-            html += '<div class="album-download">';
-            html += '<span class="album-source">' + json[album].torrents[torrent].media + '</span>';
-            html += '<span class="album-encoding">' + json[album].torrents[torrent].format + '</span><br>';
-            html += '<span class="album-size">' + Math.floor(json[album].torrents[torrent].size / 1024 / 1024) + ' MB</span>';
-            html += '<input class="album-download-button" onclick="download(\'Music\', \'' + 
-                    'https://what.cd/torrents.php?action=download&id=' + json[album].torrents[torrent].id + 
-                    '&authkey=' + config[config.movies].auth + '&torrent_pass=' + config[config.movies].key + 
-                    '\', \'' + json[album].name + ' - ' + json[album].torrents[torrent].format + 
-                    '\')" type="button" value="Download">';
+        html += '<img class="movie-art" alt="movie-art" src="' + movie.poster + '">';
+        html += '<div class="movie-name">' + movie.title + '</div>';
+        for (var torrent in movie.torrents) {
+            html += '<div class="movie-download">';
+            html += '<span class="movie-source">' + movie.torrents[torrent].Source + '</span>';
+            html += '<span class="movie-size">' + Math.floor(movie.torrents[torrent].Size / 1024 / 1024 / 2014) + ' GB</span>';
+            html += '<input class="movie-download-button" onclick="download(\'Movie\', \'' +  
+                     movie.title + '\', \'https://tls.passthepopcorn.me/torrents.php?action=download&id=' + 
+                     movie.torrents[torrent].Id + '&authkey=' + config[config.movies].key + 
+                     '&torrent_pass=' + config[config.movies].auth + '\'); "' + 
+                    'type="button" value="Download">';
             html += '</div>';
         }
         html += '</div>';
-        html += '</div>';
-    }
+    });
 
     return html;
 }
 
 exports.search      = searchForMovie;
-exports.download    = downloadAlbum;
+exports.download    = downloadMovie;
