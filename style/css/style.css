@@ -28,6 +28,10 @@ select.dropdown {
     border: none;
 }
 
+div.container {
+    margin: 5px 0px 10px 10px;
+}
+
 /* Tiles are pretty generic */
 div.tile {
     background-color: #e9f6ff;
@@ -51,40 +55,52 @@ div.tile:hover {
 
 /* Styling for TV Show Search */
 div.tvshow-name {
-    min-width: 200px;
+    margin: 10px 0px 10px 20px;
+    width: 400px;
+    display: inline-block;
     float: left;
-    margin: 10px 0px 0px 20px;
+    text-align: left;
 }
 
 img.tvshow-poster {
     width: 200px;
-    min-height: 294px;
+    min-height: 40px;
     float: left;
-    margin: 10px 0px 20px 50px;
+    margin: 10px 0px 0px 20px;
 }
 
-div.seasons-container {
+div.tvshow-download-container {
+    font-size: 1.0rem;
     width: 300px;
     float: left;
     text-align: left;
-    font-size: 1.2rem;
+    margin: 0px 0px 0px 20px;
 }
 
-div.season-resolution-container {
-    margin-left: 20px;
+div.tvshow-download {
+    display: inline-block;
+    width: 100%;
 }
 
-div.season-resolution-download-container {
-    margin-left: 20px;
+span.format {
+    float: right;
 }
 
-input.season-resolution-download-button {
+span.source {
+    float: left;
+}
+
+span.size {
+    float: left;
+}
+
+input.tv-download-button {
     float: right;
 }
 
 /* Styling for music artist/album search */
 img.album-art {
-    max-width: 200px;
+    width: 200px;
     height: auto;
     float: left;
     margin: 10px 0px 0px 20px;

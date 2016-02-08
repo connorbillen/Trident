@@ -45,9 +45,9 @@ function searchForTVShow(title, count) {
     });
 
     var postOptions = {
-        host: config[config.tvshows].host, // 'api.btnapps.net',
-        port: config[config.tvshows].port, // 80
-        path: config[config.tvshows].path, // '/',
+        host: config[config.tvshows].host,
+        port: config[config.tvshows].port,
+        path: config[config.tvshows].path,
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -63,10 +63,8 @@ function searchForTVShow(title, count) {
 
         res.on('end', function() {
             var obj = JSON.parse(json);
-            console.log(obj);
             
             if (Object.keys(obj.result.torrents).length < obj.result.results) {
-                console.log('getting the rest of the results');
                 searchForTVShow(title, parseInt(obj.result.results)).then(function(json) {
                     var html = process(json);
                     response.resolve(html);       
@@ -125,29 +123,28 @@ function render(json) {
         html += '<div class="tile">';
         html += '<img class="tvshow-poster" alt="Poster" src="' + json[series].Poster + '">';
         html += '<div class="tvshow-name">' + series + '</div>';
-        html += '<div class="seasons-container">';
+        html += '<div class="tvshow-download-container">';
         for (var season in json[series]) {
-            html += '<div class="season">';
             if (season == 'Poster')
                 continue;
             
             html += '<div class="season-name" onclick="expand(this.parentNode); ">' + season + '</div>';
-            html += '<div class="season-resolution-container">';
+            html += '<div class="container">';
             for (var resolution in json[series][season]) {
                 html += '<div class="season-resolution">' + resolution + '</div>';
-                html += '<div class="season-resolution-download-container">';
+                html += '<div class="container">';
                 json[series][season][resolution].forEach(function (download) {
-                    html += '<div class="season-resolution-download">';
-                    html += '<span class="season-resolution-download-information">' + download.container + ' - ' 
-                                                                                    + download.source + '-'
-                                                                                    + download.size + '</span>';
-                    html += '<input class="season-resolution-download-button" onclick="download(\'TVShow\', \'' 
+                    html += '<div class="tvshow-download">';
+                    html += '<span class="format">' + download.container + '</span>';
+                    html += '<span class="source">' + download.source + '</span>';
+                    html += '<br>';
+                    html += '<span class="size">' + download.size + '</span>';
+                    html += '<input class="tv-download-button" onclick="download(\'TVShow\', \'' 
                             + download.url  + '\', \'' + series + ' - ' + season + '\'); " type="button" value="Download">'
                     html += '</div>';
                 });
                 html += '</div>';
             }
-            html += '</div>';
             html += '</div>';
         }
         html += '</div>';
