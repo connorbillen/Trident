@@ -8,7 +8,7 @@ Combining the joys of SickBeard, CouchPotato, and Headphones into one happy, sea
         	[ ] Replace SickBeard post-processing functionality
 	    [ ] Movies -- PTP
         	[x] Create CouchPotato frontend
-        	[ ] Replace CouchPotato search/add functionality
+        	[x] Replace CouchPotato search/add functionality
         	[ ] Replace CouchPotato post-processing functionality
     	[ ] Music -- What.CD
         	[x] Create Headphones frontend
