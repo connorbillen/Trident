@@ -124,100 +124,36 @@ input.album-download-button {
     float: right;
 }
 
-/* Deprecated styling below, it's still in use but will be re-done after the new search is complete */
-div.movie {
-    background-color: #E9F6FF;
-    border-radius: 15px;
-    width: 750px;
-    height: 250px;
-    padding: 10px;
-    margin: 10px auto 10px auto;
-    position: relative;
-}
-
-div.information-header {
-    line-height: 3rem;
-}
-
-img.poster {
-    width: auto;
-    height: 250px;
-}
-
-span.title {
-    max-width: 400px;
-    white-space: nowrap;
-    overflow: hidden;
+/* Styling for movie search */
+img.movie-art {
+    width: 200px;
+    height: auto;
     float: left;
+    margin: 10px 0px 10px 20px;
 }
 
-span.rating {
-    font-size: 0.9rem;
-    margin-right: 20px;
-    float: right;
-}
-
-div.information-body {
-    font-size: 1rem;
-    clear: both;
-}
-
-span.description {
-    margin: 10px 0px 10px 0px;
-    display: block;
-    text-align: left;
-    height: 100px;
-    overflow: auto;
-}
-
-span.date {
+div.movie-name {
+    margin: 10px 0px 10px 20px;
     float: left;
+    width: 400px;
     text-align: left;
     display: inline-block;
 }
 
-span.actors {
-    width: auto;
-    display: inline-block;
+div.movie-download-container {
+    width: 300px;
+    font-size: 1.0rem;
+    float: left;
     text-align: left;
+    margin: 0px 0px 0px 20px;
 }
 
-span.actors ul {
-    margin-top: -0.1rem;
+div.movie-download {
+    width: 100%;
+    display: inline-block;
+    margin: 5px 0px 5px 0px;
 }
 
-span.download {
-    position: absolute;
-    bottom: 17px;
-    right: 17px;
-}
-
-
-
-/* Styling for Artist Search  */
-div.add-album {
-    float: right; 
-    margin-right: 50px;
-}
-
-span.album-name {
-    max-width: 400px;
-    white-space: nowrap;
-    float: left;
-    overflow: hidden;
-    margin-left: 50px;
-}
-
-/* Styling for generic information containers */
-div.poster-container {
-    width: 250px;
-    height: 100%;
-    float: left;
-    text-align: center;
-}
-
-div.information-container {
-    width: 500px;
-    height: 100%;
+input.movie-download-button {
     float: right;
 }

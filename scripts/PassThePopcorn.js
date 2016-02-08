@@ -91,17 +91,20 @@ function render(json) {
         html += '<div class="tile">';
         html += '<img class="movie-art" alt="movie-art" src="' + movie.poster + '">';
         html += '<div class="movie-name">' + movie.title + '</div>';
+        html += '<div class="movie-download-container">';
         for (var torrent in movie.torrents) {
             html += '<div class="movie-download">';
             html += '<span class="movie-source">' + movie.torrents[torrent].Source + '</span>';
+            html += '<br>';
             html += '<span class="movie-size">' + Math.floor(movie.torrents[torrent].Size / 1024 / 1024 / 2014) + ' GB</span>';
-            html += '<input class="movie-download-button" onclick="download(\'Movie\', \'' +  
-                     movie.title + '\', \'https://tls.passthepopcorn.me/torrents.php?action=download&id=' + 
+            html += '<input class="movie-download-button" onclick="download(\'Movie\',' + 
+                     '\'https://tls.passthepopcorn.me/torrents.php?action=download&id=' + 
                      movie.torrents[torrent].Id + '&authkey=' + config[config.movies].key + 
-                     '&torrent_pass=' + config[config.movies].auth + '\'); "' + 
+                     '&torrent_pass=' + config[config.movies].auth + '\',\'' + movie.title + ' - ' + movie.torrents[torrent].Source + '\'); "' + 
                     'type="button" value="Download">';
             html += '</div>';
         }
+        html += '</div>';
         html += '</div>';
     });
 
