@@ -50,7 +50,10 @@ function searchForArtist(artist) {
     var host        = config[config.music];
     
     request(host.host + host.path + 'ajax.php?action=artist&artistname=' + encodeURI(artist), function (error, res, body) {
-        response.resolve(process(artist, body));
+        if (JSON.parse(body).status == 'failure')
+            response.resolve('<p>Search failed: ' + JSON.parse(body).error + '</p>');
+        else
+            response.resolve(process(artist, body));
     });
 
     return response.promise;
