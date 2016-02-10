@@ -56,7 +56,9 @@ function searchForTVShow(title, count) {
                         if (err)
                             console.log(err);
                         var obj = JSON.parse(body);
-                        if (Object.keys(obj.result.torrents).length < obj.result.results) {
+                        if (obj.result.results == 0)
+                            response.resolve('<p>No search results</p>');
+                        else if (Object.keys(obj.result.torrents).length < obj.result.results) {
                             searchForTVShow(title, parseInt(obj.result.results)).then(function(json) {
                                 response.resolve(process(json));       
                             });
