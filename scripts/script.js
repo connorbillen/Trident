@@ -21,7 +21,7 @@ function expand(e) {
 }
 
 function download(type, url, title) {
-    socket.emit('query', { 'cmd': 'download', 'options': { 'type': type, 'data': { 'url': url, 'title': title } } });
+    socket.emit('query', { 'cmd': 'download', 'options': { 'type': type, 'data': { 'id': url, 'title': title } } });
 }
 
 // Socket event handlers

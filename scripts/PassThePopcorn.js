@@ -9,7 +9,6 @@ var deferred    = require('deferred');
 var config      = require('../config');
 
 // Login to the PassThePopcorn API using the username and password supplied in the config file
-/*
 var host = config[config.movies];
 request.post({ url: host.host + host.path + 'ajax.php?action=login', form: { username: host.username, password: host.password, passkey: host.auth, 
                                                                              keeplogged: 1 }}, 
@@ -20,7 +19,6 @@ request.post({ url: host.host + host.path + 'ajax.php?action=login', form: { use
             console.log(err);
     }
 );
-*/
 /* This is where the download-related 
    functions are. Search functions
    are below this sectioin          */ 

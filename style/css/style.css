@@ -1,6 +1,6 @@
 /* Main body and header design information */
 body {
-    background-color: #39627F;
+    background-color: #525252;
     font-family: 'Roboto', sans-serif;
     font-size: 1.5em;
 }
@@ -34,7 +34,7 @@ div.container {
 
 /* Tiles are pretty generic */
 div.tile {
-    background-color: #e9f6ff;
+    background-color: #cccccc;
     margin: 20px auto 20px auto;
     padding: 10px 0px;
     width: 700px;
