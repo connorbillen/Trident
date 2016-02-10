@@ -1,4 +1,5 @@
 var http        = require('http');
+var request     = require('request');
 var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
@@ -36,53 +37,33 @@ function searchForTVShow(title, count) {
     var response = deferred();
     count = (count ? count : 1)
 
-    var postData = JSON.stringify({
+    var formData = JSON.stringify({
         'method': 'getTorrents',
         'params': [ config[config.tvshows].key,
-                  [ { 'series': '%' + title + '%', 'category': 'Season', 'resolution': config[config.tvshows].resolutions, 'source': config[config.tvshows].resolution }], 
+                  [ { 'series': '%' + title + '%', 'category': 'Season', 'resolution': config[config.tvshows].resolutions, 'source': config[config.tvshows].sources }], 
                   count, 0],
         'id': 'query'
     });
 
-    var postOptions = {
-        host: config[config.tvshows].host,
-        port: config[config.tvshows].port,
-        path: config[config.tvshows].path,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    var postRequest = http.request(postOptions, function(res) {
-        var json = ''
-
-        res.on('data', function(chunk) {
-            json += chunk;
-        });
-
-        res.on('end', function() {
-            var obj = JSON.parse(json);
-            
-            if (Object.keys(obj.result.torrents).length < obj.result.results) {
-                searchForTVShow(title, parseInt(obj.result.results)).then(function(json) {
-                    var html = process(json);
-                    response.resolve(html);       
-                });
-            } else {
-                response.resolve(json);
-            }
-        });
-
-        res.on('error', function(error) {
-            console.log(error);
-        });
-    }).on('error', function(error) {
-        console.log(error);
-    });
-
-    postRequest.write(postData);
-    postRequest.end();
+    request.post({  url:  config[config.tvshows].host + config[config.tvshows].path, 
+                    port: config[config.tvshows].port, 
+                    headers: 
+                         {
+                             'Content-Type': 'application/json'
+                         },
+                    body: formData },
+                    function (err, httpResponse, body) {
+                        if (err)
+                            console.log(err);
+                        var obj = JSON.parse(body);
+                        if (Object.keys(obj.result.torrents).length < obj.result.results) {
+                            searchForTVShow(title, parseInt(obj.result.results)).then(function(json) {
+                                response.resolve(process(json));       
+                            });
+                        } else {
+                            response.resolve(body);
+                        }
+                    });
 
     return response.promise;
 }
