@@ -11,7 +11,7 @@ function query(cmd, options) {
     console.log('cmd: ' + cmd);
     console.log('options: ' + JSON.stringify(options));
 
-    if (options.type == 'TVShow') {
+    if (options.type == 'TV Shows') {
         tvshows[cmd](options.data)(
             function(data) {
                 response.resolve(data);
@@ -23,7 +23,7 @@ function query(cmd, options) {
                 response.resolve(data);
             }
         );
-    } else if (options.type == 'Movie') {
+    } else if (options.type == 'Movies') {
         movies[cmd](options.data)(
             function(data) {
                 response.resolve(data);
