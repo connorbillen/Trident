@@ -6,6 +6,7 @@ var io      = require('socket.io')(http);
 var api     = require('./scripts/API');
 app.use(express.static('style'));
 app.use(express.static('scripts'));
+app.use(express.static('node_modules/bulma'));
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/html/index.html');

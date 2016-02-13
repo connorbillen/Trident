@@ -25,6 +25,7 @@
     "url": "https://github.com/connorbillen/Trident/issues"
   },
   "dependencies": {
+    "bulma": "0.0.12",
     "deferred": "^0.7.4",
     "express": "^4.13.3",
     "querystring": "^0.2.0",

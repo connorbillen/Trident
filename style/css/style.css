@@ -1,35 +1,17 @@
 /* Main body and header design information */
 body {
-    background-color: #525252;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.5em;
+    font-family: Roboto;
 }
 
 div#container {
+    margin-top: 10px; 
     text-align: center;
 }
 
-span#header {
-    color: #aaaaaa;
-    font-weight: 600;
-    font-size: 4rem;
-}
-
-input.search {
-    font-size: 1.3rem;
-    border: none;
-    margin: 5px;
+input#search {
     width: 400px;
+    margin: 0px auto 0px auto;
     text-align: right;
-}
-
-select.dropdown {
-    font-size: 1.3rem;
-    border: none;
-}
-
-div.container {
-    margin: 5px 0px 10px 10px;
 }
 
 /* Tiles are pretty generic */

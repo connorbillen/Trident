@@ -5,23 +5,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Trident v0.0.1</title>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bulma.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
+        <header class="header">
+            <div class="container">
+                <div class="header-left">
+                    <div class="header-item">
+                        <h3 class="title is-3">Trident</h3>
+                    </div>
+                    <a class="header-tab is-active">
+                        Music
+                    </a>
+                    <a class="header-tab">
+                        Movies
+                    </a>
+                    <a class="header-tab">
+                        TV Shows
+                    </a>
+                </div>
+            
+                <div class="header-right">
+                    <div class="header-item">
+                        <input class="input" id="search" type="text" placeholder="Press enter to search...">
+                    </div>    
+                </div>
+            </div>
+        </header>
+
         <div id="container">
-            <span id="header">
-               Trident 
-            </span>
-    
-            <div id="form-container">
-                <input id="search" class="search" type="text" name="query">
-                <select id="search-type" class="dropdown">
-                    <option value="Movie">Movies</option>
-                    <option value="TVShow">TV Shows</option>
-                    <option value="Music">Music</option>
-                </select>
-            </div>    
-        
             <div id="content">
             </div>
         </div>
