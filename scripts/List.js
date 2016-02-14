@@ -2,17 +2,17 @@ var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
 var omdb        = require('./OMDB');
+var discogs     = require('./Discogs');
 
 module.exports = function (type) {
     var response = deferred();
     
-    if (type == 'Music') {
+    if (type == 'Music')
         response.resolve(exec('ls "' + config.musicpath + '"', processMusic));
-    } else if (type == 'Movies') {
+    else if (type == 'Movies')
         response.resolve(exec('ls "' + config.moviespath + '"', processMovies));
-    } else if (type == 'TV Shows') {
+    else if (type == 'TV Shows')
         response.resolve(exec('ls "' + config.tvpath + '"', processTVShows));
-    }
 
     return response.promise;
 };
@@ -33,9 +33,6 @@ function processMovies(error, stdout, stderr) {
         var year    = title.pop().slice(1, 5);
         title       = title.join(' ');
 
-        console.log('title: ' + title);
-        console.log('year: ' + year);
-
         omdb(title, year)(
             function (data) {
                 console.log(data);
@@ -51,8 +48,47 @@ function processMusic(error, stdout, stderr) {
         console.log(stderr);
         return;
     }
+        
+    var artists = stdout.split('\n');
+
+    artists.forEach(function (artist) {
+        if (artist == '')
+            return;
+    
+        discogs.artist(artist)(
+            function (data) {
+                console.log(data);
+            }
+        );
+        
+        exec('ls ' + config.musicpath + artist, function (error, stdout, stderr) { processAlbums(artist, error, stdout, stderr); });
+    });
 
     return render({});
+}
+
+function processAlbums(artist, error, stdout, stderr) {
+    if (error) {
+        console.log(stderr);
+        return;
+    }
+    
+    var albums = stdout.split('\n');
+
+    albums.forEach(function (album) {
+        if (album == '')
+            return;
+        
+        var title   = album.split(' ');
+        var year    = title.pop().slice(1, 5);
+        title       = title.join(' ');
+
+        discogs.album(title, year, artist)(
+            function (data) {
+                console.log(data);
+            }
+        );
+    });
 }
 
 function processTVShows(error, stdout, stderr) {
