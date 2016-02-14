@@ -20,7 +20,7 @@ Combining the joys of SickBeard, CouchPotato, and Headphones into one happy, sea
 	        [ ] Replace Plex transcoding (ffmpeg)
 
 
-Automating the process of acquiring media for a home theather is a hot topic in software development, so a lot of products have sprung forward trying to fill every possible nook and cranny that can possible be scripted. Many of these utilities are made with the mentality of leaving them designed in an open and generic enough way that any source for media possible can be used (UseNet/Torrents). Unfortunately, this can sometimes create a fragmented process that isn't entirely efficient and may not work out-of-the-box for some users.
+Automating the process of acquiring media for a home theather is a hot topic in software development, so a lot of products have sprung forward trying to fill every possible nook and cranny that can possibly be scripted. Many of these utilities are made with the mentality of leaving them designed in an open and generic enough way that any source for media possible can be used (UseNet/Torrents). Unfortunately, this can sometimes create a fragmented process that isn't entirely efficient and may not work out-of-the-box for some users.
 
 Trident is created with a different mentality; limit the sources and create specific instruction sets to interact with those sources. Each process, whether it be querying for a TV Show or scraping for a new release, is catered to the source, thus providing a much more fluent overall experience. 
 
