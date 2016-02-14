@@ -27,7 +27,7 @@ request.post({ url: host.host + host.path + 'ajax.php?action=login', form: { use
 function downloadMovie(options) {
     var response = deferred();
 
-    var download = exec('wget --no-check-certificate -O "' + config[config.movies].watch_dir + options.title + '.torrent" "' + options.url + '"', 
+    exec('wget --no-check-certificate -O "' + config[config.movies].watch_dir + options.title + '.torrent" "' + options.url + '"', 
         function processDownload(error, stdout, stderr) {
             if (error) {
                 console.log(stderr);

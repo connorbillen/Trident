@@ -12,7 +12,9 @@ for (var i = 0; i < tabs.length; i++) {
         for (var i = 0; i < tabs.length; i++)
             tabs[i].className = 'header-tab';
         
-        event.target.className = 'header-tab is-active'; 
+        event.target.className = 'header-tab is-active';
+
+        socket.emit('list', event.target.innerText);
     };
 };
 
@@ -22,7 +24,7 @@ search.onkeypress = function searchOnEnter(event) {
     
     var type = document.getElementsByClassName('header-tab is-active')[0].innerText;
 
-    socket.emit('query', { 'cmd': 'search', 'options': { 'type': type, 'data': search.value } });
+    socket.emit('list', type);
 }
 
 function expand(e) {

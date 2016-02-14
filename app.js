@@ -21,6 +21,12 @@ io.on('connection', function(socket) {
             });
         });
 
+        socket.on('list', function(type) {
+            api.listmedia(type)(function (html) {
+                socket.emit('response', html);
+            });
+        });
+
         socket.on('disconnect', function () {
             console.log('A frontend client disconnected...');
         });
