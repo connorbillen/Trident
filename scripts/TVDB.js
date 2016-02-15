@@ -1,7 +1,60 @@
+'use strict';
 var request     = require('request');
 var deferred    = require('deferred');
 var config      = require('../config');
-var token       = ''
+
+class TVDB {
+    constructor() {
+        this.token = '';
+    }
+
+    setToken(token) {
+        this.token = token;
+    }
+
+    getToken() {
+        return this.token;
+    }
+
+    show(title) {
+        var response = deferred();
+        var token = this.token;
+
+        request({ url: config.tvdb.host + config.tvdb.path + 'search/series?name=' + encodeURI(title), 
+                  headers: { 'Authorization': 'Bearer ' + token }},
+            function (err, res, body) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+
+                console.log(body);
+            }
+        );
+
+        return response.promise;
+    }
+
+    episode(id, season, episode) {
+        var response = deferred();
+        var token = this.token;
+
+        request({ url: config.tvdb.host + config.tvdb.path + '/series/' + id + '/episodes/query?' +
+                       'airedSeason=' + uriEncode(season) + '&airedEpisode=' + uriEncode(episode) },
+            function(err, res, body) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+
+                console.log(body);
+            }
+        ); 
+        return response.promise;
+    }
+}
+
+var tvdb = new TVDB();
 
 request.post({ url: config.tvdb.host + config.tvdb.path + 'login', json: { apikey: config.tvdb.key }},
     function (err, response, body) {
@@ -9,22 +62,11 @@ request.post({ url: config.tvdb.host + config.tvdb.path + 'login', json: { apike
             console.log(err);
             return;
         }
-
+        
         console.log(body);
-        token = JSON.parse(body).token;
+
+        tvdb.setToken(body.token);
     }
 );
 
-function searchSeries(title) {
-    var response = deferred();
-
-    request({ url: ocnfig.tvdb.host + config.tvdb.path + '/search/' + title, headers: { 'Authorizaton': 'Bearer ' + token }},
-        function (err, res, body) {
-            console.log(body);
-        }
-    );
-
-    return response.promise;
-}
-
-exports.search = searchSeries;
+exports.tvdb = tvdb;

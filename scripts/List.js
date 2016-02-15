@@ -3,7 +3,7 @@ var deferred    = require('deferred');
 var config      = require('../config');
 var omdb        = require('./OMDB');
 var discogs     = require('./Discogs');
-var tvdb        = require('./TVDB');
+var tvdb        = require('./TVDB').tvdb;
 
 module.exports = function (type) {
     var response = deferred();
