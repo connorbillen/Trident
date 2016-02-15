@@ -3,6 +3,7 @@ var deferred    = require('deferred');
 var config      = require('../config');
 var omdb        = require('./OMDB');
 var discogs     = require('./Discogs');
+var tvdb        = require('./TVDB');
 
 module.exports = function (type) {
     var response = deferred();
@@ -96,6 +97,19 @@ function processTVShows(error, stdout, stderr) {
         console.log(error);
         return;
     }
+    
+    var tvshows = stdout.split('\n');
+
+    tvshows.forEach(function (tvshow) {
+        if (tvshow == '')
+            return;
+
+        tvdb.search(encodeURI(tvshow))(
+            function(data) {
+                console.log(data);
+            }
+        );
+    });
 
     return render({});
 }
