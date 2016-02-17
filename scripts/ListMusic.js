@@ -16,7 +16,8 @@ module.exports = function processMusic(error, stdout, stderr) {
     artists.forEach(function (artist) {
         if (artist == '')
             return;
-        
+       
+        console.log('ARTIST: ' + artist);
         var response = deferred();
         responses.push(response.promise);
 
@@ -27,7 +28,7 @@ module.exports = function processMusic(error, stdout, stderr) {
             }
         );
         
-        exec('ls ' + config.musicpath + artist, function (error, stdout, stderr) { processAlbums(artist, error, stdout, stderr); });
+        // exec('ls ' + config.musicpath + artist, function (error, stdout, stderr) { processAlbums(artist, error, stdout, stderr); });
     });
 
     return deferred.apply(null, responses)(function (data) { renderMusic(musicData); });
@@ -58,7 +59,9 @@ function processAlbums(artist, error, stdout, stderr) {
 }
 
 
-function renderMusic(json) {
+function renderMusic(musicData) {
+    console.log(musicData);
+    
     var html = '';
 
     return html;
