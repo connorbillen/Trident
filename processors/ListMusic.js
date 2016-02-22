@@ -83,19 +83,18 @@ function processAlbums(artist) {
 
 function storeMusic(musicData) {
     var db;
+    var connection;
     var response = true;
 
     // Instantiate the connection to the database
-    mongoose.connect('mongodb://localhost/Trident/');
+    connection = mongoose.connect('mongodb://localhost/Trident');
     db = mongoose.connection;
 
     db.on('error', function () { response = false; console.error.bind(console, 'connection error:'); });
     db.once('open', function () { 
         var data = parseMusicData(musicData);
-    
-        // No matching yet, commenting out because the database
-        // already has the test data...
-        /*
+        artistModel.remove({}, function (err) {});
+        
         data.forEach(function(artist) {
             artist.save(function (err, artist) {
                 if (err) { 
@@ -104,15 +103,16 @@ function storeMusic(musicData) {
                 }
             });
         });
-        */
+    
+        connection.disconnect() 
     });
+
     
     return response;
 }
 
 function parseMusicData(musicData) {
     var parsedData = [];
-   
 
     for (var data in musicData) {
         var artist = musicData[data];

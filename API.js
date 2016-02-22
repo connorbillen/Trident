@@ -14,23 +14,11 @@ function query(cmd, options) {
     console.log('options: ' + JSON.stringify(options));
     
     if (options.type == 'TV Shows') {
-        tvshows[cmd](options.data)(
-            function(data) {
-                response.resolve(data);
-            }
-        );
+        tvshows[cmd](options.data)(response.resolve(data));
     } else if (options.type == 'Music') {
-        music[cmd](options.data)(
-            function(data) {
-                response.resolve(data);
-            }
-        );
+        music[cmd](options.data)(response.resolve(data));
     } else if (options.type == 'Movies') {
-        movies[cmd](options.data)(
-            function(data) {
-                response.resolve(data);
-            }
-        );
+        movies[cmd](options.data)(response.resolve);
     }
     
     return response.promise;
@@ -39,12 +27,7 @@ function query(cmd, options) {
 function view(type) {
     var response = deferred();
 
-    View(type)(
-        function (data) {
-            console.log(data);
-            response.resolve(data);
-        }
-    );
+    View(type)(response.resolve);
 
     return response.promise;    
 }
@@ -52,12 +35,7 @@ function view(type) {
 function listmedia(type) {
     var response = deferred();
 
-    List(type)(
-        function (data) {
-            console.log(data);
-            response.resolve(data);           
-        }
-    );
+    List(type)(response.resolve);
      
     return response.promise;
 }
