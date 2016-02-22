@@ -16,46 +16,66 @@ module.exports = function processMusic(error, stdout, stderr) {
     artists.forEach(function (artist) {
         if (artist == '')
             return;
-       
-        console.log('ARTIST: ' + artist);
-        var response = deferred();
+        var artistData  = {}; 
+        var response    = deferred();
+        var _response   = deferred();
         responses.push(response.promise);
+        responses.push(_response.promise);
 
         discogs.artist(artist)(
             function (data) {
-                musicData.push(data);
-                response.resolve();
+                artistData.artist = data;
+                _response.resolve();
             }
         );
         
-        // exec('ls ' + config.musicpath + artist, function (error, stdout, stderr) { processAlbums(artist, error, stdout, stderr); });
+        processAlbums(artist)(
+            function (data) {
+                artistData.albums = data;
+                musicData.push(artistData);
+                response.resolve();
+            }
+        );
     });
 
     return deferred.apply(null, responses)(function (data) { renderMusic(musicData); });
 };
 
-function processAlbums(artist, error, stdout, stderr) {
-    if (error) {
-        console.log(stderr);
-        return;
-    }
+function processAlbums(artist) {
+    var response = deferred();
     
-    var albums = stdout.split('\n');
-
-    albums.forEach(function (album) {
-        if (album == '')
+    exec('ls "' + config.musicpath + artist + '"', (error, stdout, stderr) => { 
+        if (error) {
+            console.log(error);
             return;
+        }
         
-        var title   = album.split(' ');
-        var year    = title.pop().slice(1, 5);
-        title       = title.join(' ');
+        var responses   = [];
+        var albumData   = [];  
+        var albums      = stdout.split('\n');
+        
+        albums.forEach(function (album) {
+            if (album == '')
+                return;
+            
+            var response    = deferred();
+            var title       = album.split(' ');
+            var year        = title.pop().slice(1, 5);
+            title           = title.join(' ');
 
-        discogs.album(title, year, artist)(
-            function (data) {
-                console.log(data);
-            }
-        );
+            responses.push(response.promise);
+            discogs.album(title, year, artist)(
+                function (data) {
+                    albumData.push(data);
+                    response.resolve();
+                }
+            );
+        });
+
+        return deferred.apply(null, responses)(function (data) { return response.resolve(albumData); }); 
     });
+
+    return response.promise;
 }
 
 
