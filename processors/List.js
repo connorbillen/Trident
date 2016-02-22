@@ -11,14 +11,20 @@ module.exports = function (type) {
     var response = deferred();
     
     if (type == 'Music') {
-        exec('ls "' + config.musicpath + '"', ListMusic);
-        response.resolve('Processing music directory...');
+        exec('ls "' + config.musicpath + '"', 
+            function(error, stdout, stderr) { 
+                response.resolve(ListMusic(error, stdout, stderr)); 
+            });
     } else if (type == 'Movies') {
-        exec('ls "' + config.moviespath + '"', ListMovies);
-        response.resolve('Processing movies directory...');
+        exec('ls "' + config.moviespath + '"', 
+            function(error, stdout, stderr) { 
+                response.resolve(ListMovies(error, stdout, stderr)); 
+            });
     } else if (type == 'TV Shows') {
-        exec('ls "' + config.tvpath + '"', ListTVShows);
-        response.resolve('Processing tv show directory...');
+        exec('ls "' + config.tvpath + '"', 
+            function(error, stdout, stderr) { 
+                response.resolve(ListTVShows(error, stdout, stderr)); 
+            });
     }
 
     return response.promise;

@@ -3,6 +3,7 @@ var deferred    = require('deferred');
 var mongoose    = require('mongoose');
 var config      = require('../config');
 var discogs     = require('../fetchers/Discogs');
+var artistModel = require('../schemas/artistModel');
 
 module.exports = function processMusic(error, stdout, stderr) {
     if (error) {
@@ -81,11 +82,58 @@ function processAlbums(artist) {
 
 
 function storeMusic(musicData) {
-    html += musicData;
+    var db;
+    var response = true;
+
+    // Instantiate the connection to the database
+    mongoose.connect('mongodb://localhost/Trident/');
+    db = mongoose.connection;
+
+    db.on('error', function () { response = false; console.error.bind(console, 'connection error:'); });
+    db.once('open', function () { 
+        var data = parseMusicData(musicData);
+    
+        // No matching yet, commenting out because the database
+        // already has the test data...
+        /*
+        data.forEach(function(artist) {
+            artist.save(function (err, artist) {
+                if (err) { 
+                    return console.error(err);
+                    response = false;
+                }
+            });
+        });
+        */
+    });
+    
+    return response;
+}
+
+function parseMusicData(musicData) {
+    var parsedData = [];
+   
 
     for (var data in musicData) {
         var artist = musicData[data];
-    }
+        
+        var artistData = new artistModel({
+            name: artist.artist.title,
+            profile: artist.artist.thumb,
+            albums: []
+        });
 
-    return true;
+        artist.albums.forEach(function (album) {
+            artistData.albums.push({
+                title: album.title,
+                genre: album.genre[0],
+                poster: album.thumb,
+                year: new Date(album.year)
+            });
+        });
+        
+        parsedData.push(artistData);
+    }
+    
+    return parsedData;
 }

@@ -5,6 +5,7 @@ var tvshows     = require('./modules/' + config.tvshows);
 var music       = require('./modules/' + config.music);
 var movies      = require('./modules/' + config.movies);
 var List        = require('./processors/List');
+var View        = require('./viewers/View');
 
 function query(cmd, options) {
     var response = deferred();
@@ -35,6 +36,19 @@ function query(cmd, options) {
     return response.promise;
 }
 
+function view(type) {
+    var response = deferred();
+
+    View(type)(
+        function (data) {
+            console.log(data);
+            response.resolve(data);
+        }
+    );
+
+    return response.promise;    
+}
+
 function listmedia(type) {
     var response = deferred();
 
@@ -50,3 +64,4 @@ function listmedia(type) {
 
 exports.query       = query;
 exports.listmedia   = listmedia;
+exports.view        = view;

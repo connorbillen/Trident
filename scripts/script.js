@@ -14,7 +14,8 @@ for (var i = 0; i < tabs.length; i++) {
         
         event.target.className = 'header-tab is-active';
 
-        socket.emit('list', event.target.innerText);
+        //socket.emit('list', event.target.innerText);
+        socket.emit('view', event.target.innerText);
     };
 };
 
