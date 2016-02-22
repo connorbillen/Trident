@@ -1,7 +1,7 @@
 var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
-var tvdb        = require('./TVDB').tvdb;
+var tvdb        = require('../fetchers/TVDB').tvdb;
 
 module.exports = function processTVShows(error, stdout, stderr) {
     if (error) {

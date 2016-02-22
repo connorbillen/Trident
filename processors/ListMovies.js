@@ -1,7 +1,7 @@
 var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
-var omdb        = require('./OMDB');
+var omdb        = require('../fetchers/OMDB');
 
 module.exports = function processMovies(error, stdout, stderr) {
     if (error) {

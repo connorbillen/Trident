@@ -3,7 +3,7 @@ var express = require('express');
 var app     = express();
 var http    = require('http').Server(app);
 var io      = require('socket.io')(http);
-var api     = require('./scripts/API');
+var api     = require('./API');
 app.use(express.static('style'));
 app.use(express.static('scripts'));
 app.use(express.static('node_modules/bulma'));

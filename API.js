@@ -1,10 +1,10 @@
 var http        = require('http');
 var deferred    = require('deferred');
-var config      = require('../config');
-var tvshows     = require('./' + config.tvshows);
-var music       = require('./' + config.music);
-var movies      = require('./' + config.movies);
-var List        = require('./List');
+var config      = require('./config');
+var tvshows     = require('./modules/' + config.tvshows);
+var music       = require('./modules/' + config.music);
+var movies      = require('./modules/' + config.movies);
+var List        = require('./processors/List');
 
 function query(cmd, options) {
     var response = deferred();
@@ -40,6 +40,7 @@ function listmedia(type) {
 
     List(type)(
         function (data) {
+            console.log(data);
             response.resolve(data);           
         }
     );

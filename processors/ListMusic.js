@@ -1,7 +1,8 @@
 var exec        = require('child_process').exec;
 var deferred    = require('deferred');
+var mongoose    = require('mongoose');
 var config      = require('../config');
-var discogs     = require('./Discogs');
+var discogs     = require('../fetchers/Discogs');
 
 module.exports = function processMusic(error, stdout, stderr) {
     if (error) {
@@ -38,7 +39,7 @@ module.exports = function processMusic(error, stdout, stderr) {
         );
     });
 
-    return deferred.apply(null, responses)(function (data) { renderMusic(musicData); });
+    return deferred.apply(null, responses)(function (data) { storeMusic(musicData); });
 };
 
 function processAlbums(artist) {
@@ -79,10 +80,12 @@ function processAlbums(artist) {
 }
 
 
-function renderMusic(musicData) {
-    console.log(musicData);
-    
-    var html = '';
+function storeMusic(musicData) {
+    html += musicData;
 
-    return html;
+    for (var data in musicData) {
+        var artist = musicData[data];
+    }
+
+    return true;
 }
