@@ -2,7 +2,6 @@ var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var mongoose    = require('mongoose');
 var config      = require('../config');
-var discogs     = require('../fetchers/Discogs');
 var artistModel = require('../schemas/artistModel');
 
 module.exports = function renderMusic(error, stdout, stderr) {

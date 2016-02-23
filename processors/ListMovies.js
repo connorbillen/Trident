@@ -2,6 +2,8 @@ var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
 var omdb        = require('../fetchers/OMDB');
+var mongoose    = require('mongoose');
+var movieModel  = require('../schemas/movieModel'); 
 
 module.exports = function processMovies(error, stdout, stderr) {
     if (error) {
@@ -31,14 +33,57 @@ module.exports = function processMovies(error, stdout, stderr) {
         );
     });
 
-
-    return deferred.apply(null, responses)(function (data) { renderMovies(movieData) });
+    return deferred.apply(null, responses)(function (data) { storeMovies(movieData) });
 };
 
-function renderMovies(movieData) {
-    console.log(movieData);
-    
-    var html = '';
+function storeMovies(movieData) {
+    var db;
+    var connection;
+    var response = true;
 
-    return html;
+    // Instantiate the connection to the datase
+    connection = mongoose.connect('mongodb://localhost/Trident');
+    db = mongoose.connection;
+
+    db.on('error', function() { response = false; console.error.bind(console, 'connection error: '); });
+    db.once('open', function() {
+        var data = parseMovieData(movieData);
+        movieModel.remove({}, function (err) {});
+
+        data.forEach(function(movie) {
+            movie.save(function (err, movie) {
+                if (err) {
+                    return console.error(err);
+                    response = false;
+                }
+            });
+        });
+        
+        connection.disconnect();
+    });
+
+    return response;
+
+}
+
+function parseMovieData(movieData) {
+    var parsedData = [];
+
+    for (var data in movieData) {
+        var movie = movieData[data];
+        
+        var movieData = new movieModel({
+            name: movie.Title,
+            poster: movie.Poster,
+            genre: movie.Genre,
+            plot: movie.Plot,
+            actors: movie.Actors,
+            rating: movie.Rated,
+            year: new Date(movie.Released)
+        });
+
+        parsedData.push(movieData);
+    }
+
+    return parsedData;
 }

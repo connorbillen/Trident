@@ -17,7 +17,7 @@ module.exports = function (type) {
             });
  
     else if (type == 'Movies')
-        exec('ls "' + config.moviepath + '"', 
+        exec('ls "' + config.moviespath + '"', 
             function(error, stdout, stderr) { 
                 ViewMovies(error, stdout, stderr)(response.resolve);
             });

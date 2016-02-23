@@ -10,7 +10,7 @@ app.use(express.static('node_modules/bulma'));
 
 // Scan the media content directories for new items
 api.listmedia('Music');
-// api.listmedia('Movies');
+api.listmedia('Movies');
 // api.listmedia('TV Shows');
 
 app.get('/', function (req, res) {

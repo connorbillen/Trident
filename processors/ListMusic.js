@@ -104,10 +104,9 @@ function storeMusic(musicData) {
             });
         });
     
-        connection.disconnect() 
+        connection.disconnect();
     });
 
-    
     return response;
 }
 
