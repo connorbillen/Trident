@@ -37,33 +37,21 @@ module.exports = function processMovies(error, stdout, stderr) {
 };
 
 function storeMovies(movieData) {
-    var db;
-    var connection;
     var response = true;
 
-    // Instantiate the connection to the datase
-    connection = mongoose.connect('mongodb://localhost/Trident');
-    db = mongoose.connection;
+    var data = parseMovieData(movieData);
+    movieModel.remove({}, function (err) {});
 
-    db.on('error', function() { response = false; console.error.bind(console, 'connection error: '); });
-    db.once('open', function() {
-        var data = parseMovieData(movieData);
-        movieModel.remove({}, function (err) {});
-
-        data.forEach(function(movie) {
-            movie.save(function (err, movie) {
-                if (err) {
-                    return console.error(err);
-                    response = false;
-                }
-            });
+    data.forEach(function(movie) {
+        movie.save(function (err, movie) {
+            if (err) {
+                return console.error(err);
+                response = false;
+            }
         });
-        
-        connection.disconnect();
     });
-
+        
     return response;
-
 }
 
 function parseMovieData(movieData) {
