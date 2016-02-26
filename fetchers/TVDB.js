@@ -27,8 +27,8 @@ class TVDB {
                     console.log(err);
                     return;
                 }
-
-                console.log(body);
+                
+                response.resolve(JSON.parse(body).data[0]);
             }
         );
 
@@ -49,7 +49,8 @@ class TVDB {
 
                 console.log(body);
             }
-        ); 
+        );
+
         return response.promise;
     }
 }

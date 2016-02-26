@@ -58,8 +58,8 @@ function parseMovieData(movieData) {
     var parsedData = [];
 
     for (var data in movieData) {
-        var movie = movieData[data];
-        
+        var movie = JSON.parse(movieData[data]);
+
         var movieData = new movieModel({
             name: movie.Title,
             poster: movie.Poster,

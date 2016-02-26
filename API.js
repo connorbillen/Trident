@@ -14,9 +14,9 @@ function query(cmd, options) {
     console.log('options: ' + JSON.stringify(options));
     
     if (options.type == 'TV Shows') {
-        tvshows[cmd](options.data)(response.resolve(data));
+        tvshows[cmd](options.data)(response.resolve);
     } else if (options.type == 'Music') {
-        music[cmd](options.data)(response.resolve(data));
+        music[cmd](options.data)(response.resolve);
     } else if (options.type == 'Movies') {
         movies[cmd](options.data)(response.resolve);
     }
@@ -34,6 +34,8 @@ function view(type) {
 
 function listmedia(type) {
     var response = deferred();
+
+    console.log('API TYPE: ' + type);
 
     List(type)(response.resolve);
      

@@ -4,6 +4,7 @@ var socket = io();
 // element selectors
 var contentArea     = document.getElementById('content');
 var search          = document.getElementById('search');
+var refresh         = document.getElementById('refresh');
 var tabs            = document.getElementsByClassName('header-tab');
 
 // various HMTL DOM element actions
@@ -24,6 +25,14 @@ search.onkeypress = function searchOnEnter(event) {
         return;
     
     var type = document.getElementsByClassName('header-tab is-active')[0].innerText;
+
+    socket.emit('list', type);
+}
+
+refresh.onclick = function refreshDB(event) {
+    var type = document.getElementsByClassName('header-tab is-active')[0].innerText;
+
+    console.log('REFRESHING: ' + type);
 
     socket.emit('list', type);
 }

@@ -19,13 +19,13 @@ module.exports = function renderMovies(error, stdout, stderr) {
             html += err;
         }
        
-        console.log('MOVIES:' + movies);
-
         html += '<div class="columns">';
         movies.forEach(function (movie) {
-            console.log(movie);
-
             html += '<div class="column">'; 
+            html += '<img clas="movie" src="' + movie.poster + '">';
+            html += '<div class"movie-name-container">';
+            html += '<span class="movie-name">' + movie.name + '</span>';
+            html += '</div>';
             html += '</div>';
         });
         

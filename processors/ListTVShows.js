@@ -2,6 +2,8 @@ var exec        = require('child_process').exec;
 var deferred    = require('deferred');
 var config      = require('../config');
 var tvdb        = require('../fetchers/TVDB').tvdb;
+var mongoose    = require('mongoose');
+var tvshowModel = require('../schemas/tvshowModel');
 
 module.exports = function processTVShows(error, stdout, stderr) {
     if (error) {
@@ -10,8 +12,9 @@ module.exports = function processTVShows(error, stdout, stderr) {
     }
     
     var tvshows     = stdout.split('\n');
-    var tvshowData  = [];
+    var tvshowsData = [];
     var responses   = [];
+
     tvshows.forEach(function (tvshow) {
         if (tvshow == '')
             return;
@@ -21,19 +24,47 @@ module.exports = function processTVShows(error, stdout, stderr) {
 
         tvdb.show(encodeURI(tvshow))(
             function(data) {
-                tvshowData.push(data);
+                tvshowsData.push(data);
                 response.resolve();
             }
         );
     });
 
-    deferred.apply(null, responses)(function (data) { renderTVShows(tvshowData); });
+    deferred.apply(null, responses)(function (data) { storeTVShows(tvshowsData); });
 };
 
-function renderTVShows(tvshowData) {
-    console.log(tvshowData);
+function storeTVShows(tvshowsData) {
+    var response = true;
     
-    var html = '';
+    var data = parseTVShowData(tvshowsData);
+    tvshowModel.remove({}, function (err) {});
+     
+    data.forEach(function(tvshow) {
+        tvshow.save(function (err, tvshow) {
+            if (err) { 
+                return console.error(err);
+                response = false;
+            }
+        });
+    });
 
-    return html;
+    return response;
+}
+
+function parseTVShowData(tvshowsData) {
+    var parsedData = [];
+
+    tvshowsData.forEach(function (tvshow) {
+        console.log('BIT: ' + JSON.stringify(tvshow));
+
+        var tvshowData = new tvshowModel({
+            name: tvshow.seriesName,
+            poster: tvshow.banner,
+            plot: tvshow.overview
+        });
+
+        parsedData.push(tvshowData);
+    });
+    
+    return parsedData;
 }
