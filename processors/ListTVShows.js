@@ -55,11 +55,9 @@ function parseTVShowData(tvshowsData) {
     var parsedData = [];
 
     tvshowsData.forEach(function (tvshow) {
-        console.log('BIT: ' + JSON.stringify(tvshow));
-
         var tvshowData = new tvshowModel({
             name: tvshow.seriesName,
-            poster: tvshow.banner,
+            banner: 'https://thetvdb.com/banners/' + tvshow.banner,
             plot: tvshow.overview
         });
 

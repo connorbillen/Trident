@@ -14,6 +14,19 @@ input#search {
     text-align: right;
 }
 
+div.column {
+    text-align: center;
+}
+
+img.artist {
+    height: 150px;
+    width: 150px;
+}
+
+img.tvshow {
+    margin-left: auto;
+    margin-right: auto;
+}
 /* Tiles are pretty generic */
 div.tile {
     background-color: #cccccc;

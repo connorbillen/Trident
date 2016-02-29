@@ -14,6 +14,8 @@ function artist(name) {
                 return;
             }
             
+            console.log(body);
+
             response.resolve(JSON.parse(body).results[0]);
         }
     );

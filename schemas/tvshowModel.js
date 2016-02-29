@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 // tvshowmodel schema
 var tvshowSchema = mongoose.Schema({
         name: String,
-        poster: String,
+        banner: String,
         plot: String
     });
 

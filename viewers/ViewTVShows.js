@@ -18,23 +18,21 @@ module.exports = function processTVShows(error, stdout, stderr) {
             html += err;
         }
 
-        html += '<div class="columns">';
         tvshows.forEach(function (tvshow) {
             console.log(tvshow);
 
-            html += '<div class="column">';
-            html += '<img class="tvshow" src="">';
-            html += '<div class="tvshow-name-container>';
-            html += '</div>';
+            html += '<div class="columns">';
+            html += '<img class="tvshow" src="' + tvshow.banner + '">';
             html += '</div>';
         });
-        html += '</div>';
-
+        
+        /*
         for (var i = 0; i < 4 - (tvshows.length % 4); i++) {
             html += '<div class="column"</div>';
         }
 
         html += '</div>';
+        */
 
         response.resolve(html);
     });
