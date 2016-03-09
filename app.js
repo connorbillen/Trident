@@ -14,17 +14,6 @@ var db          = mongoose.connection;
 
 db.on('error', function() { console.error.bing(console, 'connection error:'); });
 
-/*
-db.once('open', function () {
-    // Scan the content directories for new media upon launch
-    // and initial DB connection
-    
-    api.listmedia('Music');
-    api.listmedia('Movies');
-    api.listmedia('TV Shows');
-});
-*/
-
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/static/html/index.html');
 });
@@ -41,6 +30,12 @@ io.on('connection', function(socket) {
     socket.on('view', function(type) {
         api.view(type)(function (html) {
             socket.emit('response', html)
+        });
+    });
+        
+    socket.on('play', function(info) {
+        api.play(info.type, info.path)(function (html) {
+            socket.emit('response', html);
         });
     });
 

@@ -45,6 +45,10 @@ function download(type, url, title) {
     socket.emit('query', { 'cmd': 'download', 'options': { 'type': type, 'data': { 'id': url, 'title': title } } });
 }
 
+function play(type, path) {
+    socket.emit('play', { 'type': type, 'path': path }); 
+}
+
 // Socket event handlers
 socket.on('response', function(html) {
     if (html)

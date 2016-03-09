@@ -6,6 +6,7 @@ var music       = require('./modules/' + config.music);
 var movies      = require('./modules/' + config.movies);
 var List        = require('./processors/List');
 var View        = require('./viewers/View');
+var Play        = require('./players/Play.js');
 
 function query(cmd, options) {
     var response = deferred();
@@ -42,6 +43,15 @@ function listmedia(type) {
     return response.promise;
 }
 
+function play(type, path) {
+    var response = deferred();
+
+    Play(type, path)(response.resolve);
+    
+    return response.promise;
+}
+
 exports.query       = query;
 exports.listmedia   = listmedia;
 exports.view        = view;
+exports.play        = play;

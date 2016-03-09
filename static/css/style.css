@@ -18,6 +18,10 @@ div.column {
     text-align: center;
 }
 
+img {
+    cursor: pointer; 
+}
+
 img.artist {
     height: 150px;
     width: 150px;

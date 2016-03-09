@@ -19,21 +19,11 @@ module.exports = function processTVShows(error, stdout, stderr) {
         }
 
         tvshows.forEach(function (tvshow) {
-            console.log(tvshow);
-
             html += '<div class="columns">';
             html += '<img class="tvshow" src="' + tvshow.banner + '">';
             html += '</div>';
         });
         
-        /*
-        for (var i = 0; i < 4 - (tvshows.length % 4); i++) {
-            html += '<div class="column"</div>';
-        }
-
-        html += '</div>';
-        */
-
         response.resolve(html);
     });
 

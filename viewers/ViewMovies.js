@@ -18,11 +18,12 @@ module.exports = function renderMovies(error, stdout, stderr) {
             console.log(err);
             html += err;
         }
-       
+      
         html += '<div class="columns">';
         movies.forEach(function (movie) {
-            html += '<div class="column">'; 
-            html += '<img clas="movie" src="' + movie.poster + '">';
+            html += '<div class="column" onclick="play(\'movie\', \'' + movie.name +
+                    ' (' + (new Date(movie.year)).getFullYear() + ')\'); ">'; 
+            html += '<img class="movie" src="' + movie.poster + '">';
             html += '<div class"movie-name-container">';
             html += '<span class="movie-name">' + movie.name + '</span>';
             html += '</div>';
