@@ -21,7 +21,7 @@ module.exports = function renderMovies(error, stdout, stderr) {
       
         html += '<div class="columns">';
         movies.forEach(function (movie) {
-            html += '<div class="column" onclick="play(\'movie\', \'' + movie.name +
+            html += '<div class="column" onclick="play(\'Movie\', \'' + movie.name +
                     ' (' + (new Date(movie.year)).getFullYear() + ')\'); ">'; 
             html += '<img class="movie" src="' + movie.poster + '">';
             html += '<div class"movie-name-container">';
