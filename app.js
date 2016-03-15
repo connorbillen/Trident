@@ -1,18 +1,31 @@
 // Require necessary modules and build out require global vars
+var exec        = require('child_process').exec;
 var express     = require('express');
 var app         = express();
 var http        = require('http').Server(app);
 var io          = require('socket.io')(http);
 var mongoose    = require('mongoose');
 var api         = require('./API');
+
 app.use(express.static('static'));
 app.use(express.static('node_modules/bulma'));
+app.use(express.static('cache'));
 
 // Connect to the database
 var connection  = mongoose.connect('mongodb://localhost/Trident');
 var db          = mongoose.connection;
 
 db.on('error', function() { console.error.bing(console, 'connection error:'); });
+
+// Start the transcoding server
+exec('ffserver -f ffserver.conf',
+    function(error, stdout, stderr) {
+        if (error) {
+            console.log('FFServer error...');
+            console.log(stderr);
+            return;
+        }
+    });
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/static/html/index.html');

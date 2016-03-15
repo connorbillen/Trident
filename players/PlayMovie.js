@@ -16,7 +16,19 @@ module.exports = function (error, stdout, stderr, path) {
         return;
     }
 
-    response.resolve(path + '/' + moviefile);
+    exec('ffmpeg -i "' + path + '/' + moviefile + 
+         '" -c:v libvpx http://localhost:8090/feed1.ffm',
+        function(error, stdout, stderr) {
+            if (error) {
+                console.log(stderr);
+                return;
+            }
+        });
+
+    response.resolve('<video id="video" width="640" height="480" controls>' +
+                        '<source src="http://localhost:8090/stream.webm" type="video/webm">' +
+                        'Your browser does not support the video tag.' +
+                     '</video>');
 
     return response.promise;
 }

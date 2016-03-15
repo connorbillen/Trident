@@ -18,6 +18,10 @@ div.column {
     text-align: center;
 }
 
+div#content {
+    text-align: center;
+}
+
 img {
     cursor: pointer; 
 }
