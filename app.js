@@ -1,5 +1,4 @@
 // Require necessary modules and build out require global vars
-var exec        = require('child_process').exec;
 var express     = require('express');
 var app         = express();
 var http        = require('http').Server(app);
@@ -17,16 +16,6 @@ var db          = mongoose.connection;
 
 db.on('error', function() { console.error.bing(console, 'connection error:'); });
 
-// Start the transcoding server
-exec('ffserver -f ffserver.conf',
-    function(error, stdout, stderr) {
-        if (error) {
-            console.log('FFServer error...');
-            console.log(stderr);
-            return;
-        }
-    });
-
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/static/html/index.html');
 });
@@ -42,16 +31,10 @@ io.on('connection', function(socket) {
 
     socket.on('view', function(type) {
         api.view(type)(function (html) {
-            socket.emit('response', html)
-        });
-    });
-        
-    socket.on('play', function(info) {
-        api.play(info.type, info.path)(function (html) {
             socket.emit('response', html);
         });
     });
-
+        
     socket.on('list', function(type) {
         console.log(type);
         

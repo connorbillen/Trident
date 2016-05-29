@@ -38,4 +38,4 @@ module.exports = function renderMusic(error, stdout, stderr) {
     });
 
     return response.promise;
-}
+};

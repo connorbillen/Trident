@@ -16,7 +16,7 @@ module.exports = function processTVShows(error, stdout, stderr) {
     var responses   = [];
 
     tvshows.forEach(function (tvshow) {
-        if (tvshow == '')
+        if (tvshow === '')
             return;
 
         var response = deferred();
@@ -30,7 +30,7 @@ module.exports = function processTVShows(error, stdout, stderr) {
         );
     });
 
-    deferred.apply(null, responses)(function (data) { storeTVShows(tvshowsData); });
+    deferred(responses)(function (data) { storeTVShows(tvshowsData); });
 };
 
 function storeTVShows(tvshowsData) {
@@ -42,8 +42,8 @@ function storeTVShows(tvshowsData) {
     data.forEach(function(tvshow) {
         tvshow.save(function (err, tvshow) {
             if (err) { 
-                return console.error(err);
                 response = false;
+                return console.error(err);
             }
         });
     });

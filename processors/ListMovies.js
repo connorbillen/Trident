@@ -16,7 +16,7 @@ module.exports = function processMovies(error, stdout, stderr) {
     var responses   = [];
 
     movies.forEach(function (movie) {
-        if (movie == '')
+        if (movie === '')
             return;
         
         var response = deferred(); 
@@ -33,7 +33,7 @@ module.exports = function processMovies(error, stdout, stderr) {
         );
     });
 
-    return deferred.apply(null, responses)(function (data) { storeMovies(movieData) });
+    return deferred(responses)(function (data) { storeMovies(movieData); });
 };
 
 function storeMovies(movieData) {
@@ -45,8 +45,8 @@ function storeMovies(movieData) {
     data.forEach(function(movie) {
         movie.save(function (err, movie) {
             if (err) {
-                return console.error(err);
                 response = false;
+                return console.error(err);
             }
         });
     });
@@ -60,7 +60,7 @@ function parseMovieData(movieData) {
     for (var data in movieData) {
         var movie = JSON.parse(movieData[data]);
 
-        var movieData = new movieModel({
+        var movieDatum = new movieModel({
             name: movie.Title,
             poster: movie.Poster,
             genre: movie.Genre,
@@ -70,7 +70,7 @@ function parseMovieData(movieData) {
             year: new Date(movie.Released)
         });
 
-        parsedData.push(movieData);
+        parsedData.push(movieDatum);
     }
 
     return parsedData;

@@ -13,7 +13,9 @@ module.exports = function (type) {
     if (type == 'Music')
         exec('ls "' + config.musicpath + '"', 
             function(error, stdout, stderr) { 
-                ViewMusic(error, stdout, stderr)(response.resolve);
+                ViewMusic(error, stdout, stderr).then(function(data) {
+					response.resolve(data);
+				});
             });
  
     else if (type == 'Movies')
