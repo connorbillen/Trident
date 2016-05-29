@@ -1,5 +1,3 @@
-'use strict';
-
 var https       = require('https');
 var http        = require('http');
 var request     = require('request');

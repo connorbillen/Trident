@@ -7,18 +7,20 @@ var search          = document.getElementById('search');
 var refresh         = document.getElementById('refresh');
 var tabs            = document.getElementsByClassName('header-tab');
 
+function changeType(event) {
+    for (var i = 0; i < tabs.length; i++)
+        tabs[i].className = 'header-tab';
+    
+    event.target.className = 'header-tab is-active';
+
+    //socket.emit('list', event.target.innerText);
+    socket.emit('view', event.target.innerText);
+}
+
 // various HMTL DOM element actions
 for (var i = 0; i < tabs.length; i++) {
-    tabs[i].onclick = function changeType(event) {
-        for (var i = 0; i < tabs.length; i++)
-            tabs[i].className = 'header-tab';
-        
-        event.target.className = 'header-tab is-active';
-
-        //socket.emit('list', event.target.innerText);
-        socket.emit('view', event.target.innerText);
-    };
-};
+    tabs[i].onclick = changeType;
+}
 
 search.onkeypress = function searchOnEnter(event) { 
     if (event.keyCode != 13)
@@ -26,8 +28,8 @@ search.onkeypress = function searchOnEnter(event) {
     
     var type = document.getElementsByClassName('header-tab is-active')[0].innerText;
 
-    socket.emit('list', type);
-}
+    socket.emit('query', { 'cmd': 'search', 'options': { 'type': type, 'data': search.value } });
+};
 
 refresh.onclick = function refreshDB(event) {
     var type = document.getElementsByClassName('header-tab is-active')[0].innerText;
@@ -35,7 +37,7 @@ refresh.onclick = function refreshDB(event) {
     console.log('REFRESHING: ' + type);
 
     socket.emit('list', type);
-}
+};
 
 function expand(e) {
     console.log(e.children);

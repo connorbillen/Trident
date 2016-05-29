@@ -24,6 +24,7 @@ io.on('connection', function(socket) {
     console.log('A frontend client connected...');
 
     socket.on('query', function(info) {
+        console.log(info);
         api.query(info.cmd, info.options)(function (html) {
             socket.emit('response', html);
         });
@@ -36,8 +37,6 @@ io.on('connection', function(socket) {
     });
         
     socket.on('list', function(type) {
-        console.log(type);
-        
         api.listmedia(type)(function (html) {
             socket.emit('response', html);
         });
