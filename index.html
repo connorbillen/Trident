@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trident</title>
+    <link rel="stylesheet" href="./node_modules/bulma/css/bulma.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <body id="app">
+    <section class="hero is-fullheight">
+      <!-- header -->
+      <div class="hero-head">
+        <header class="nav">
+          <div class="container">
+            <div class="nav-left">
+              <a class="nav-item" href="javascript:void(0); "><h1 class="title">Trident</h1></a>
+            </div>
+
+            <div class="nav-center">
+              <div class="nav-item">
+                <input id="search" class="input" type="text" placeholder="Search for content...">
+              </div>
+            </div>
+
+            <div class="nav-right">
+              <a id="active-type" class="type-nav nav-item" href="javascript:void(0); ">Music</a>
+              <a class="type-nav nav-item" href="javascript:void(0); ">Movies</a>
+              <a class="type-nav nav-item" href="javascript:void(0); ">TV Shows</a>
+            </div>
+          </div>
+        </header>
+      </div>
+      <!-- end header -->
+
+      <!-- body -->
+      <div id="contentContainer" class="hero-body">
+        <div id="contentArea" class="container has-text-centered">
+          Hi! :)
+        </div>
+      </div>
+      <!-- end body -->
+
+      <!-- footer -->
+      <div class="hero-foot">
+        <div class="container">
+          <div class="content has-text-centered">
+            designed and developed by <a href="https://github.com/connorbillen"><strong>connor billen</strong></a>
+          </div>
+        </div>
+      </div>
+      <!-- end footer -->
+    </section>
+
+    <!-- main script requirement-->
+    <script type="text/javascript">
+      require('./renderer.js');
+    </script>
+    <!-- end user javascript files -->
+  </body>
+</html>

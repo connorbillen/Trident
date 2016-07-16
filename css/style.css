@@ -1,0 +1,35 @@
+input.input {
+  width: 500px;
+}
+
+div.hero-body {
+  overflow-y: scroll;
+}
+
+div.hero-foot {
+  border-top: 1px #f2f3f4 solid !important;
+}
+
+figure.image {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img.albumart {
+  max-width: 128px;
+  max-height: 128px;
+}
+
+a#active-type {
+  text-decoration: underline;
+}
+
+div#contentArea {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+div.content.result:hover {
+  background-color: #c6c6c6;
+  padding-top: 10px;
+}

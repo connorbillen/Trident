@@ -1,34 +1,32 @@
-# Trident
-Combining the joys of SickBeard, CouchPotato, and Headphones into one happy, seamless interface.
+# electron-quick-start
 
-	[ ] Trident v1.0
-    	[ ] TV Shows -- BTN
-        	[x] Create SickBeard frontend
-        	[x] Replace SickBeard search/add functionality
-        	[ ] Replace SickBeard post-processing functionality
-	    [ ] Movies -- PTP
-        	[x] Create CouchPotato frontend
-        	[x] Replace CouchPotato search/add functionality
-        	[ ] Replace CouchPotato post-processing functionality
-    	[ ] Music -- What.CD
-        	[x] Create Headphones frontend
-        	[x] Replace Headphones search/add functionality
-     		[ ] Replace Headphones post-processing functionality
-    	[ ] Player
-        	[ ] Replace Plex management (Edit/Destroy) functionality
-        	[ ] Replace basic Plex playing functionality (HTML5 mp4, flac)
-	        [ ] Replace Plex transcoding (ffmpeg)
+**Clone and run for a quick way to see an Electron in action.**
 
+This is a minimal Electron application based on the [Quick Start Guide](http://electron.atom.io/docs/latest/tutorial/quick-start) within the Electron documentation.
 
-Automating the process of acquiring media for a home theather is a hot topic in software development, so a lot of products have sprung forward trying to fill every possible nook and cranny that can possibly be scripted. Many of these utilities are made with the mentality of leaving them designed in an open and generic enough way that any source for media possible can be used (UseNet/Torrents). Unfortunately, this can sometimes create a fragmented process that isn't entirely efficient and may not work out-of-the-box for some users.
+**Use this app along with the [Electron API Demos](http://electron.atom.io/#get-started) app for API code examples to help you get started.**
 
-Trident is created with a different mentality; limit the sources and create specific instruction sets to interact with those sources. Each process, whether it be querying for a TV Show or scraping for a new release, is catered to the source, thus providing a much more fluent overall experience. 
+A basic Electron application needs just these files:
 
-Initial supported sources for media until post v1.0 will be as follows:<br>
-<b>Music</b> - What.CD<br>
-<b>TV Shows</b> - BroadcastTheNet<br>
-<b>Movies</b> - PassThePopcorn<br>
+- `package.json` - Points to the app's main file and lists its details and dependencies.
+- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
+- `index.html` - A web page to render. This is the app's **renderer process**.
 
-Development will initially begin as creating a unified front-end for three popular media snatching applications: SickBeard, CouchPotato, and Headphones. After a basic singular interface has been finished, each piece of functionality that the utility software provides will be replaced, starting with searching for media and adding media to the torrent client and finishing with the post-processing functions.
+You can learn more about each of these components within the [Quick Start Guide](http://electron.atom.io/docs/latest/tutorial/quick-start).
 
-In the long-term, Trident will hopefully supply basic functionality in terms of managing the accessibility and viewing of content on the server, ending with a 1.0 release that provides a complete media center experience in a single package.
+## To Use
+
+To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+git clone https://github.com/electron/electron-quick-start
+# Go into the repository
+cd electron-quick-start
+# Install dependencies and run the app
+npm install && npm start
+```
+
+Learn more about Electron and its API in the [documentation](http://electron.atom.io/docs/latest).
+
+#### License [CC0 (Public Domain)](LICENSE.md)
