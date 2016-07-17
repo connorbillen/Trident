@@ -65,6 +65,8 @@ function parseResults(type, results) {
   var searchResults = [];
   var torrents = [];
 
+  console.log('type', type);
+
   for (var index in results) {
     let result = results[index];
 
@@ -94,16 +96,29 @@ function parseResults(type, results) {
       // Render each model
       searchResults[searchResults.length - 1].render();
     } else if (type == 'Movies') {
-      searchResults.add(new SearchModel({
-        title: '',
-        image: '',
-        torrents: torrents
+      // Parse out torrents and create appropriate associations in information
+      result.torrents.forEach( (torrent) => {
+
+      });
+
+      searchResults.push(new SearchModel({
+        title: result.title,
+        image: result.poster,
+        torrents: torrents,
+        template: 'MovieResult',
+        el: contentArea
       }));
+
+      searchResults[searchResults.length - 1].render();
     } else if (type == 'TV Shows') {
-      searchResults.add(new SearchModel({ title: '',
-      image: '',
-      torrents: torrents
-    }));
+      searchResults.push(new SearchModel({
+        image: 'https://' + result.Poster,
+        torrents: torrents,
+        template: 'TVShowResult',
+        el: contentArea
+      }));
+
+      searchResults[searchResults.length - 1].render();
     }
   }
 
